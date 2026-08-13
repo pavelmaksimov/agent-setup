@@ -61,6 +61,7 @@ Skills that change how the agent designs, implements, and reviews code.
 | `weekly-review` | Weekly review | reference | Weekly synthesis of authored commits by bugfix, tech debt, net-new | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills | From Cursor Team Kit / plugins |
 | `logika` | Logika | reference | Classical formal logic review and rewrite of arguments | https://github.com/EvilFreelancer/logika | Install from upstream |
 | `grep-ast` | grep-ast | installable | AST-aware code search via `uvx grep-ast` | https://github.com/Aider-AI/grep-ast | Install the tool from upstream (`uvx grep-ast` / pip). Take the skill from this repo: `harnesses/skills/grep-ast/SKILL.md` → `.cursor/skills/grep-ast/SKILL.md` |
+| `layers-linter` | layers-linter | installable | Enforce Python layer and library import boundaries via `uvx layers-linter` | https://github.com/pavelmaksimov/layers-linter | Install the tool from upstream (`uvx layers-linter` / pip). Take the skill from this repo: `harnesses/skills/layers-linter/SKILL.md` → `.cursor/skills/layers-linter/SKILL.md` |
 
 ### Memory and knowledge
 
@@ -89,7 +90,7 @@ CLI and browser/search tools that agents call while working.
 ### Standards
 
 Commit and changelog conventions for human-readable history.
-These skills were authored here from the official specs (not third-party skill packs).
+These skills and rules were authored here from the official specs (not third-party skill packs).
 
 | ID | Name | Kind | Summary | Upstream | Install from |
 |---|---|---|---|---|---|

@@ -42,9 +42,9 @@ Rules:
   file happens to exist here.
 - Never vendor upstream/reference skills, rules, hooks, or agents into
   `harnesses/`.
-- Hybrid case (e.g. `grep-ast`): tool from upstream
-  (https://github.com/Aider-AI/grep-ast); skill from this repo under
-  `harnesses/skills/grep-ast/`. State both in the README Notes column.
+- Hybrid case (e.g. `grep-ast`, `layers-linter`): tool from upstream;
+  skill from this repo under `harnesses/skills/<id>/`. State both in the
+  README Notes column.
 - CLIs/plugins/frameworks (`agent-browser`, `keenable-cli`, Cursor plugins,
   oh-my-*, Superpowers, AG2, …) are **reference** even if a usage skill could
   be written here.
