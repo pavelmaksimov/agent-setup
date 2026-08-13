@@ -1,0 +1,49 @@
+---
+description: Component layout — apps, adapters, components, libs, Container, layers
+alwaysApply: true
+---
+
+# Repository structure
+
+Group modules by component (one domain per directory). Put new code in the matching layer;
+do not mix adapters with services or use cases. Lower layers do not import higher ones.
+SQLAlchemy stays in `adapters`, `orm` (`models.py`), and `repo` (`repositories.py`).
+
+```text
+project/
+  infrastructure/apps/api.py          FastAPI app, router registration
+  infrastructure/apps/main.py         production entry
+  infrastructure/adapters/            external systems (HTTP, DB, queues)
+  infrastructure/utils/               framework helpers, not domain
+  components/{name}/
+    endpoints.py                      HTTP handlers
+    use_cases.py                      orchestration
+    service.py                        stateless domain behavior
+    repositories.py                   all data access
+    models.py                         ORM
+    schemas.py                        Pydantic
+    enums.py                          closed value sets
+    exceptions.py                     component errors (subclass AppError)
+    cli.py                            CLI
+    ai/{agent}/                       agent, prompts, tools, agent schemas
+  libs/                               reusable, no domain, no infrastructure
+  exceptions.py                       AppError
+  logger.py  settings.py  container.py
+tests/
+  conftest.py  factories.py
+  test_modules/                       modular tests (mocks)
+  test_e2e/                           end-to-end tests (live deps)
+```
+
+`container.py` stays at package root (libs must not import infrastructure).
+
+## Layers
+
+- **Service** — stateless; hides a business process.
+- **Use case** — coordinates services; no SQL, no `AsyncSession`.
+- **Repository** — the only data-access type; stateless. One extra repository when one transaction
+  spans models that do not belong together.
+- **Adapter** — facade over an external system; errors and API quirks stay here so tests can stub it.
+- **Container** — `LazyInit(Services)`; take dependencies with `Container().…` inside methods.
+
+Keep `layers.toml` in sync when adding modules. Pair with the `layers-linter` skill.

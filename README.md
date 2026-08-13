@@ -97,6 +97,23 @@ These skills and rules were authored here from the official specs (not third-par
 | `conventional-commits` | Conventional Commits | installable | Draft/validate commit messages per Conventional Commits 1.0.0 | https://www.conventionalcommits.org/en/v1.0.0/ | `harnesses/skills/conventional-commits/SKILL.md` → `.cursor/skills/conventional-commits/SKILL.md` |
 | `keep-a-changelog` | Keep a Changelog | installable | Maintain `CHANGELOG.md` per Keep a Changelog 1.1.0; ask language first | https://keepachangelog.com/en/1.1.0/ | `harnesses/skills/keep-a-changelog/SKILL.md` → `.cursor/skills/keep-a-changelog/SKILL.md` |
 
+### Project rules
+
+Cursor `.mdc` rules that shape agent behaviour in a repository.
+
+| ID | Name | Kind | Summary | Upstream | Install from |
+|---|---|---|---|---|---|
+| `agent-behavior` | Agent behavior | installable | Think before coding, simplicity first, surgical diffs, verifiable goals | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/agent-behavior/` → `.cursor/rules/agent-behavior/` |
+| `python-fastapi` | Python FastAPI service | installable | Component layout, LazyInit/Container/Settings, pytest factories, FastAPI/SSE, SQLAlchemy async, uv/ruff/black | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-fastapi/` → `.cursor/rules/python-fastapi/` |
+
+`python-fastapi` assumes package root `project/` (substitute globs if the repo differs). Pair with
+`layers-linter`. Stack: uv, FastAPI, httpx, SQLAlchemy async, orjson, sse-starlette, pytest-asyncio,
+testcontainers, respx, aioresponses, requests-mock, pre-commit, Black, isort, Ruff.
+If `LazyInit` is missing, copy `STRUCTURES.md` from that rule dir into `project/libs/structures.py`.
+If the DB adapter is missing, copy `DATABASE.md` into `project/infrastructure/adapters/database.py`.
+Copy `CONFTEST.md` into `tests/conftest.py` for HTTP mocks, `TestClient`, Testcontainers, and
+`Container.reset()`.
+
 ### Agent frameworks (stack)
 
 Libraries and optimizers for building agent products in code.
@@ -111,29 +128,7 @@ Libraries and optimizers for building agent products in code.
 
 ## Install the setup skill globally
 
-```bash
-mkdir -p ~/.cursor/skills
-git clone https://github.com/pavelmaksimov/agent-setup.git /tmp/agent-setup
-cp -R /tmp/agent-setup/skills/setup-agent-harnesses ~/.cursor/skills/
-rm -rf /tmp/agent-setup
-```
-
 Then ask the agent to run `setup-agent-harnesses` in any repository.
-
-## Repository layout
-
-```text
-README.md                            this file — catalog source of truth
-harnesses/
-  skills/<id>/                       installable skills
-  rules/<id>/                        installable rules
-  hooks/<id>/                        installable hooks
-  agents/<id>/                       installable sub-agents
-skills/setup-agent-harnesses/        bootstrap / recommendation skill
-```
-
-Do not vendor upstream packs here. If Kind is **reference**, link upstream and
-leave installation to the vendor.
 
 ## License
 

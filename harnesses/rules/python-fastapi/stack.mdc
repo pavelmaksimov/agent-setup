@@ -1,0 +1,45 @@
+---
+description: Python service toolchain — uv, pytest, ruff, black, isort, pre-commit, layers-linter
+alwaysApply: true
+---
+
+# Python service stack
+
+Default package root is `project/` (substitute if the repo uses another name).
+Tool versions and Ruff selects live in `pyproject.toml` — follow that file, do not invent a parallel config.
+
+## Runtime
+
+FastAPI, Starlette, `sse-starlette`, uvicorn, httpx, SQLAlchemy 2 async (`asyncpg`), orjson,
+Pydantic v2, pydantic-settings. Prefer **httpx** over `requests` in application code.
+
+## Tooling
+
+Package manager: **uv**. Run tools with `uv run`. Line length **120** (Ruff, Black, isort).
+Ban parent-relative imports (`from ..x`). Format with Black; lint with Ruff; sort imports with isort.
+Architecture imports: `uv run la-linter <package> --no-check-no-layer` (`layers-linter`).
+Install `pre-commit` hooks; they run Black, Ruff, layers-linter, and `uv export` for lock-style requirements.
+
+```bash
+uv sync --all-groups
+uv run pytest tests/test_modules/
+uv run pytest tests/test_e2e/ -n0
+uv run ruff check --fix project tests
+uv run black project tests
+uv run isort project tests
+uv run la-linter project --no-check-no-layer
+```
+
+## Logging
+
+Use `logger.exception` when an exception is swallowed, converted, or followed by a fallback.
+Skip a log when the exception is re-raised unchanged and the outer boundary already logs it.
+Expected control-flow branches do not need exception logs. Do not pass `extra=` on log calls.
+
+## Hygiene
+
+Closed variant sets → `Enum`. Operational constants shared across components → a `Constants` class
+next to Settings. Domain literals stay next to the domain code.
+Import from the concrete module; do not barrel-reexport in `__init__.py`.
+Do not wrap package imports in try/except. Do not add `__future__` imports.
+In async code use `asyncio.Lock()`, not `threading.Lock()`.

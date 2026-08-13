@@ -1,0 +1,47 @@
+---
+description: FastAPI endpoints — routers, ORJSON, URL versioning, HTTPException, SSE disconnects
+globs:
+  - "**/endpoints.py"
+  - "**/apps/api.py"
+alwaysApply: false
+---
+
+# FastAPI API
+
+Endpoints live in `project.components.{name}.endpoints`. Register routers on the app in
+`project.infrastructure.apps.api`. Take services from `Container()`, not from FastAPI `Depends`
+for domain objects.
+
+```bash
+uv run uvicorn project.infrastructure.apps.api:app --host 0.0.0.0 --loop uvloop
+```
+
+## Responses
+
+Use a shared envelope schema as `response_model` when the OpenAPI shape matters.
+Prefer `ORJSONResponse` (`response_class`) for JSON. `response_model` validation is extra cost
+on large payloads.
+
+Version **each path**, not the whole router: `/user/v1/list`. Breaking changes get a new path;
+keep the old one with `deprecated=True`.
+
+Raise `fastapi.HTTPException` only in `endpoints.py`. Domain code raises `AppError` (or a subclass).
+
+## Client disconnect
+
+On LLM or streaming work, cancel when the client goes away so GPU/DB work does not continue.
+ASGI sends `http.disconnect`; poll `await request.receive()`. Do not use `request.is_disconnected()`
+together with `BaseHTTPMiddleware` — it is unreliable.
+
+| Case | Approach |
+|---|---|
+| Ordinary async endpoints | Middleware that races the handler against disconnect, or `@with_cancellation` |
+| SSE / `StreamingResponse` | Let the framework cancel; `sse-starlette`. Cleanup in `finally` with `anyio.CancelScope(shield=True)` (not `asyncio.shield`) |
+| Nested async generators | `contextlib.aclosing` |
+
+Re-raise `asyncio.CancelledError` after logging/metrics. Do not add a second manual disconnect
+check inside a generator that `EventSourceResponse` already cancels.
+
+Fire-and-forget side I/O (metrics, audit) from an endpoint: `asyncio.create_task(...)` without
+await when the response does not depend on it; log failures, do not fail the request.
+Wait when the write is part of the result (DB commit, payment).

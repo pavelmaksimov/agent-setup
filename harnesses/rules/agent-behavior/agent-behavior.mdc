@@ -1,0 +1,38 @@
+---
+description: Think before coding, simplicity first, surgical diffs, verifiable goals
+alwaysApply: true
+---
+
+# Agent Behavior
+
+Bias toward caution over speed. For trivial tasks, use judgment.
+
+## Think Before Coding
+
+State assumptions. If several interpretations exist, present them — do not pick silently.
+If a simpler approach exists, say so. If something is unclear, name it and ask.
+
+## Simplicity First
+
+Minimum code that solves the asked problem. No extra features, no single-use abstractions,
+no unrequested configurability, no error handling for impossible cases.
+If 200 lines could be 50, rewrite.
+
+## Surgical Changes
+
+Touch only what the request requires. Match existing style.
+Remove imports, variables, and functions that **this** change made unused.
+Leave pre-existing dead code unless asked; mention it instead.
+
+Every changed line should trace to the user's request.
+
+## Goal-Driven Execution
+
+Turn the task into a checkable goal, then loop until it holds:
+
+- "Add validation" → tests for invalid inputs, then make them pass
+- "Fix the bug" → a test that reproduces it, then make it pass
+- "Refactor X" → tests pass before and after
+
+For multi-step work, a short plan with a verify step per item.
+Weak criteria ("make it work") need clarification first.

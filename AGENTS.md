@@ -68,6 +68,14 @@ harnesses/hooks/<id>/   → .cursor/hooks/<id>/
 harnesses/agents/<id>/  → .cursor/agents/<id>/
 ```
 
+## Authoring installable rules
+
+- One catalog ID per directory: `harnesses/rules/<id>/` with one or more `.mdc` files.
+- Frontmatter: `description`, and either `alwaysApply: true` or `globs`.
+- English bodies. Default package root is `project/`; note in the README if the installer should substitute.
+- One concern per `.mdc`. Name the stack; leave version pins and Ruff selects to the target `pyproject.toml`.
+- No machine-local absolute paths, source-project product names, or secrets.
+
 ## Authoring installable skills
 
 - One directory per skill: `harnesses/skills/<id>/SKILL.md`.
