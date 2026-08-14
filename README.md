@@ -23,6 +23,10 @@ The setup skill reads this README catalog, groups options by category, asks only
 what it cannot infer, and installs **installable** entries after approval.
 **Reference** entries get upstream links and install notes.
 
+Installed copies are snapshots. Periodically update them from this repository
+(re-run the bootstrap skill or re-copy the approved installable paths) so the
+target stays aligned with the catalog.
+
 ## What Kind means
 
 Kind answers: **where is the real product installed from?**

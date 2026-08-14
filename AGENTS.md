@@ -126,6 +126,8 @@ When running or editing the setup skill:
    rules in the target so they name it next to the other linters.
 4. Never overwrite existing target files without asking.
 5. Do not commit API keys, tokens, or machine-local absolute paths.
+6. After install, remind the user to periodically update installed copies from
+   this catalog repository (re-run the setup skill or re-copy approved paths).
 
 ## Learn from mismatches
 

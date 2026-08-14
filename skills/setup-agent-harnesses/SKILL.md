@@ -54,9 +54,15 @@ Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
 10. Preserve existing files. If a target exists, show the conflict and ask
     whether to merge, replace, or skip it.
 11. Report installed, referenced (manual), skipped, and unresolved items.
+12. Remind the user that installed copies drift: periodically re-run this skill
+    (or re-copy approved installable paths) from
+    `https://github.com/pavelmaksimov/agent-setup` so the target stays aligned
+    with the catalog. Prefer replacing only the previously approved IDs unless
+    the user wants a new selection.
 
 The setup is complete when every approved installable file is installed or
-explicitly skipped and every approved reference entry has install notes shown.
+explicitly skipped, every approved reference entry has install notes shown, and
+the periodic-update reminder has been given.
 
 ## How to read the README catalog
 
