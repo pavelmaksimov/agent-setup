@@ -18,8 +18,9 @@ Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
    the three bands (core, adapters, enforcement). Recommend core for any Python
    repo, adapters that match the codebase (FastAPI, SQLAlchemy), and
    `layers-linter` plus `domain-types-linter` with the stack. Offer `di-linter`
-   as optional (Container/LazyInit, DI001/DI002). Do not offer the stack as one
-   catch-all ID.
+   as optional (Container/LazyInit, DI001/DI002). Core includes `python-settings`
+   (pydantic-settings, `Settings().PARAM`) as its own ID, not as part of
+   `python-di`. Do not offer the stack as one catch-all ID.
 4. Filter out entries that clearly do not fit the repo.
 5. Ask the user only about choices that cannot be inferred:
    - which categories matter for this repo;

@@ -12,7 +12,8 @@ alwaysApply: false
 Runtime: SQLAlchemy 2 async (`asyncpg`). JSON columns use `JSONB`.
 
 One adapter module owns the engine and sessions. If it is missing, copy sibling `DATABASE.md`
-into `project/infrastructure/adapters/database.py` (and the Settings contract into `settings.py`).
+into `project/infrastructure/adapters/database.py` (and the Settings contract into
+`SettingsValidator` in `settings.py` — see `python-settings`).
 
 | Need | Call |
 |---|---|

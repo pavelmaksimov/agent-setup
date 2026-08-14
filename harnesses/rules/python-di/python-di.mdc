@@ -1,28 +1,27 @@
 ---
-description: No process globals — LazyInit, LazyService, Container, Settings().PARAM
+description: No process globals — LazyInit, LazyService, Container
 alwaysApply: true
 ---
 
-# LazyInit, Container, Settings
+# LazyInit, Container
 
-Do not keep service or settings instances in module globals. Create them lazily at first use.
+Do not keep service instances in module globals. Create them lazily at first use.
 
-`Settings = LazyInit(SettingsValidator)` and `Container = LazyInit(Services)` live in
-`project/settings.py` and `project/container.py`. Implementation: `project/libs/structures.py`.
-`SettingsValidator` is a pydantic-settings `BaseSettings` (Pydantic v2).
+`Container = LazyInit(Services)` lives in `project/container.py`.
+Implementation: `project/libs/structures.py`.
 If those types are missing, copy sibling `STRUCTURES.md` into `project/libs/structures.py`
 before introducing new singletons.
+
+Env config is `Settings = LazyInit(SettingsValidator)` in `project/settings.py` — see `python-settings`.
 
 ## Call through the proxy
 
 ```python
-Settings().PARAM          # yes
 Container().job_store     # yes
-settings = Settings()     # no — do not bind the proxy
+container = Container()   # no — do not bind the proxy
 ```
 
-Do not pass `Settings()` as a default argument (it freezes values at import).
-Do not store `Settings` or `Container` on `self` in `__init__`.
+Do not store `Container` on `self` in `__init__`.
 Do not construct infrastructure clients inside a service; take them from `Container()` at the
 **point of use**. Request schemas and other value objects may be created locally.
 
@@ -52,8 +51,8 @@ Components still prefer `Container`.
 
 ## Tests
 
-- `Settings.local(**kwargs)` / `Container.local(**kwargs)` — `ContextVar`, current async context.
-- `Settings.override(**kwargs)` / `Container.override(**kwargs)` — process singleton (needed when
-  work runs in another thread, e.g. `asyncio.to_thread`).
+- `Container.local(**kwargs)` — `ContextVar`, current async context.
+- `Container.override(**kwargs)` — process singleton (needed when work runs in another thread,
+  e.g. `asyncio.to_thread`).
 - `Container.reset()` between tests (autouse fixture).
 - `with Container.local(repo=FakeRepo()):` — no `unittest.mock.patch`.

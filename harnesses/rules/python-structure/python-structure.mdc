@@ -35,6 +35,7 @@ tests/
   test_e2e/                           end-to-end tests (live deps)
 ```
 
+`settings.py` is the pydantic-settings env contract (`python-settings`).
 `container.py` stays at package root (libs must not import infrastructure).
 `endpoints.py` and `apps/api.py` belong with the FastAPI adapter;
 `models.py` / `repositories.py` belong with the SQLAlchemy adapter.

@@ -53,13 +53,13 @@ Rules:
 
 A language stack is its own catalog category, split into layered IDs:
 
-- **core** — tooling, structure, DI, tests (language-wide)
+- **core** — tooling, structure, exceptions, settings, DI, tests (language-wide)
 - **adapters** — HTTP, persistence (only if the repo uses them)
 - **enforcement** — matching linter skills in the same section; not every ID is
   required with the stack (`di-linter` is optional)
 
 Do not collapse a stack into one catch-all rule ID or a comma-separated library
-list after the table. Templates (`STRUCTURES.md`, `DATABASE.md`, `CONFTEST.md`)
+list after the table. Templates (`SETTINGS.md`, `STRUCTURES.md`, `DATABASE.md`, `CONFTEST.md`)
 live in the rule dir they belong to; mention the copy path on that band.
 
 ## Adding or changing catalog entries
@@ -89,6 +89,8 @@ harnesses/agents/<id>/  → .cursor/agents/<id>/
 - Frontmatter: `description`, and either `alwaysApply: true` or `globs`.
 - English bodies. Default package root is `project/`; note in the README if the installer should substitute.
 - One concern per `.mdc`. Name the layer (tooling, HTTP, persistence); leave version pins and Ruff selects to the target `pyproject.toml`.
+- Env config (`pydantic-settings`, `Settings().PARAM`) is its own core ID (`python-settings`).
+  `python-di` owns Container and LazyService. Do not fold Settings into DI.
 - Optional enforcement (`di-linter`) stays out of default pairing lines in
   installable rule bodies. When that ID is added to a target repo, patch those
   companion rules so they mention it.

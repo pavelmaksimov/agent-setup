@@ -116,7 +116,7 @@ repo uses Container/LazyInit and you want DI001/DI002 enforced. If it is added,
 patch companion rules that already pair the other linters so they mention it too.
 
 ```text
-Core          python-tooling · python-structure · python-exceptions · python-di · python-tests
+Core          python-tooling · python-structure · python-exceptions · python-settings · python-di · python-tests
 Adapters      python-fastapi · python-sqlalchemy
 Enforcement   layers-linter · domain-types-linter · di-linter (optional)
 ```
@@ -132,10 +132,12 @@ Skip an adapter when the repo has no HTTP API or no database.
 | `python-tooling` | Python tooling | installable | uv, Ruff, Black, isort, pre-commit, logging | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-tooling/` → `.cursor/rules/python-tooling/` |
 | `python-structure` | Python structure | installable | Components, layers, adapters, `layers.toml` | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-structure/` → `.cursor/rules/python-structure/` |
 | `python-exceptions` | Python exceptions | installable | `AppError` hierarchy, where to put error types | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-exceptions/` → `.cursor/rules/python-exceptions/` |
-| `python-di` | Python DI | installable | LazyInit, Container, Settings — no process globals | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-di/` → `.cursor/rules/python-di/` |
+| `python-settings` | Python settings | installable | pydantic-settings env contract, `Settings().PARAM` | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-settings/` → `.cursor/rules/python-settings/` |
+| `python-di` | Python DI | installable | LazyInit, Container, LazyService — no process globals | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-di/` → `.cursor/rules/python-di/` |
 | `python-tests` | Python tests | installable | pytest factories, modular vs e2e, HTTP mocks, no patch | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-tests/` → `.cursor/rules/python-tests/` |
 
-Templates (copy only if missing): `python-di` → `STRUCTURES.md` into `project/libs/structures.py`;
+Templates (copy only if missing): `python-settings` → `SETTINGS.md` into `project/settings.py`;
+`python-di` → `STRUCTURES.md` into `project/libs/structures.py`;
 `python-tests` → `CONFTEST.md` into `tests/conftest.py`.
 
 #### Adapters
