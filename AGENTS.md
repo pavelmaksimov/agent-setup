@@ -59,7 +59,7 @@ A language stack is its own catalog category, split into layered IDs:
   required with the stack (`di-linter` is optional)
 
 Do not collapse a stack into one catch-all rule ID or a comma-separated library
-list after the table. Templates (`SETTINGS.md`, `STRUCTURES.md`, `DATABASE.md`, `CACHE.md`, `CONFTEST.md`)
+list after the table. Templates (`SETTINGS.md`, `STRUCTURES.md`, `DATABASE.md`, `ENV.md`, `CACHE.md`, `CONFTEST.md`)
 live in the rule dir they belong to; mention the copy path on that band.
 Linter configs (`layers.toml`, `di.toml`) live next to their skills and copy to
 the target repo root.

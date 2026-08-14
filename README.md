@@ -117,14 +117,15 @@ patch companion rules that already pair the other linters so they mention it too
 
 ```text
 Core          python-tooling · python-structure · python-exceptions · python-settings · python-di · python-tests
-Adapters      python-fastapi · python-sqlalchemy · python-redis
+Adapters      python-fastapi · python-sqlalchemy · python-alembic · python-redis
 Enforcement   layers-linter · domain-types-linter · di-linter (optional)
 ```
 
 Recommended set for a FastAPI + Postgres service: every core and adapter row
 that the repo uses, plus `layers-linter` and `domain-types-linter`. Offer
 `di-linter` separately. Skip an adapter when the repo has no HTTP API, no
-database, or no Redis cache.
+database, or no Redis cache. Skip `python-alembic` when tables are created
+from metadata only (`create_all`).
 
 #### Core
 
@@ -147,10 +148,12 @@ Templates (copy only if missing): `python-settings` → `SETTINGS.md` into `proj
 |---|---|---|---|---|---|
 | `python-fastapi` | FastAPI HTTP | installable | FastAPI, SSE, ORJSON, URL versioning, AppError handlers, httpx | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-fastapi/` → `.cursor/rules/python-fastapi/` |
 | `python-sqlalchemy` | SQLAlchemy async | installable | `asession` / `atransaction`, ORM models, optional Postgres | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-sqlalchemy/` → `.cursor/rules/python-sqlalchemy/` |
+| `python-alembic` | Alembic migrations | installable | Async Alembic env, autogenerate from ORM models, versions outside `project/` | https://alembic.sqlalchemy.org/ | `harnesses/rules/python-alembic/` → `.cursor/rules/python-alembic/` |
 | `python-redis` | Redis cache | installable | `CacheRepository`, `redis_atransaction`, orjson | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-redis/` → `.cursor/rules/python-redis/` |
 
 Templates (copy only if missing): `python-sqlalchemy` → `DATABASE.md` into
-`project/infrastructure/adapters/database.py`; `python-redis` → `CACHE.md` into
+`project/infrastructure/adapters/database.py`; `python-alembic` → `ENV.md` into
+`alembic/env.py`; `python-redis` → `CACHE.md` into
 `project/infrastructure/adapters/acache.py`.
 
 #### Enforcement

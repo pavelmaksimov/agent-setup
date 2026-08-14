@@ -37,10 +37,9 @@ Writes that are the result still go through a repository inside `atransaction()`
 A use case that must write through several repositories wraps the calls in one `atransaction()`
 (or a `Repositories.transaction()` helper on the container, if the repo already has one).
 
-If the repo already has Alembic (or another migrator), generate a revision after every model change
-and apply it (`uv run alembic revision --autogenerate -m "…"`, `uv run alembic upgrade head`).
-Downgrade before switching to a branch whose revisions lag. Do not add a migrator to a repo that
-creates tables from metadata only (`create_all` / `create_all_tables`).
+If the repo already has Alembic, follow `python-alembic`: generate a revision after every model
+change and apply it. Do not add a migrator to a repo that creates tables from metadata only
+(`create_all` / `create_all_tables`).
 
 ## ORM models
 
