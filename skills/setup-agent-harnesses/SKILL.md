@@ -16,8 +16,10 @@ Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
 3. Present harnesses **grouped by category**. For each category, list
    installable and reference entries separately. For **Python stack**, present
    the three bands (core, adapters, enforcement). Recommend core for any Python
-   repo, adapters that match the codebase (FastAPI, SQLAlchemy), and the three
-   linter skills with the stack. Do not offer the stack as one catch-all ID.
+   repo, adapters that match the codebase (FastAPI, SQLAlchemy), and
+   `layers-linter` plus `domain-types-linter` with the stack. Offer `di-linter`
+   as optional (Container/LazyInit, DI001/DI002). Do not offer the stack as one
+   catch-all ID.
 4. Filter out entries that clearly do not fit the repo.
 5. Ask the user only about choices that cannot be inferred:
    - which categories matter for this repo;
@@ -29,7 +31,10 @@ Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
    install path or upstream link, and conflicts with already-present skills.
 7. Get explicit approval for the final set.
 8. For **installable** rows, copy `Install from` source → target (see below).
-   Kind means this repo is the artifact source of truth.
+   Kind means this repo is the artifact source of truth. If `di-linter` is
+   approved, after copying it, follow that skill's companion-rule patch so
+   installed `python-structure` / `python-di` / `python-tests` name it next to
+   the other linters. Skip the patch when `di-linter` was not approved.
 9. For **reference** rows, print the upstream URL and notes; install from
    upstream. Do not treat a missing local mirror as something to recreate here
    (e.g. `agent-browser` needs the upstream CLI).

@@ -52,7 +52,17 @@ tests/test_modules/test_orders.py:8: Patch usage in tests: @patch('project.compo
 ## Workflow
 
 1. Read existing `di.toml` if present. Keep its exclude patterns; do not invent a parallel scheme.
-2. If introducing the linter: map the composition root vs injectable services, draft config, **ask before writing** `di.toml` or adding CI.
+2. If introducing the linter: map the composition root vs injectable services, draft config, **ask before writing** `di.toml` or adding CI. Patch companion rules that already pair other linters so they mention `di-linter`:
+
+```text
+python-structure pairing:
+  Pair with `layers-linter` and `domain-types-linter`.
+  → Pair with `layers-linter`, `di-linter`, and `domain-types-linter`.
+python-di Tests bullet (if that rule is present):
+  Pair with `di-linter` (DI001 in-process construction, DI002 patch in tests).
+python-tests (if present), after the no-patch sentence:
+  Pair with `di-linter` (DI002).
+```
 3. Run the CLI on the package directory.
 4. Fix every finding (see below). Prefer injecting a parameter over excludes or `# di: skip`.
 5. Widen `exclude-objects` / `exclude-modules` or add `# di: skip` only with explicit user approval.

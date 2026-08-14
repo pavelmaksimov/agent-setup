@@ -110,15 +110,19 @@ Opinionated backend for Python services. Default package root is `project/`
 (substitute globs if the repo differs).
 
 Three bands: install **core** for any Python service, add **adapters** the repo
-actually uses, and take the **linters** with the stack so the same boundaries are enforced.
+actually uses, and take `layers-linter` and `domain-types-linter` with the stack
+so the same boundaries are enforced. `di-linter` is optional — add it when the
+repo uses Container/LazyInit and you want DI001/DI002 enforced. If it is added,
+patch companion rules that already pair the other linters so they mention it too.
 
 ```text
 Core          python-tooling · python-structure · python-exceptions · python-di · python-tests
 Adapters      python-fastapi · python-sqlalchemy
-Enforcement   layers-linter · di-linter · domain-types-linter
+Enforcement   layers-linter · domain-types-linter · di-linter (optional)
 ```
 
-Recommended set for a FastAPI + Postgres service: every row below.
+Recommended set for a FastAPI + Postgres service: every core and adapter row,
+plus `layers-linter` and `domain-types-linter`. Offer `di-linter` separately.
 Skip an adapter when the repo has no HTTP API or no database.
 
 #### Core
@@ -151,8 +155,8 @@ Hybrid: tool from upstream, skill from this repo.
 | ID | Name | Kind | Summary | Upstream | Notes |
 |---|---|---|---|---|---|
 | `layers-linter` | layers-linter | installable | Import boundaries between layers and libraries | https://github.com/pavelmaksimov/layers-linter | Tool: `uvx layers-linter`. Skill: `harnesses/skills/layers-linter/SKILL.md` → `.cursor/skills/layers-linter/SKILL.md` |
-| `di-linter` | di-linter | installable | In-process construction and test patches | https://github.com/pavelmaksimov/di-linter | Tool: `uvx di-linter`. Skill: `harnesses/skills/di-linter/SKILL.md` → `.cursor/skills/di-linter/SKILL.md` |
 | `domain-types-linter` | domain-types-linter | installable | Domain types in business-logic annotations | https://github.com/pavelmaksimov/domain-types-linter | Tool: `uvx --from domain-types-linter dt-linter`. Skill: `harnesses/skills/domain-types-linter/SKILL.md` → `.cursor/skills/domain-types-linter/SKILL.md` |
+| `di-linter` | di-linter | installable | Optional. In-process construction and test patches | https://github.com/pavelmaksimov/di-linter | Tool: `uvx di-linter`. Skill: `harnesses/skills/di-linter/SKILL.md` → `.cursor/skills/di-linter/SKILL.md`. If added, patch companion rules so they pair it with the other linters |
 
 ### Agent frameworks (stack)
 

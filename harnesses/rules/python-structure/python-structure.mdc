@@ -48,8 +48,8 @@ tests/
 - **Adapter** — facade over an external system; errors and API quirks stay here so tests can stub it.
 - **Container** — `LazyInit(Services)`; take dependencies with `Container().…` inside methods.
 
-Keep `layers.toml` in sync when adding modules. Pair with `layers-linter`, `di-linter`,
-and `domain-types-linter`. Architecture imports:
+Keep `layers.toml` in sync when adding modules. Pair with `layers-linter` and
+`domain-types-linter`. Architecture imports:
 
 ```bash
 uv run la-linter project --no-check-no-layer

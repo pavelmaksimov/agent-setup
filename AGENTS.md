@@ -55,7 +55,8 @@ A language stack is its own catalog category, split into layered IDs:
 
 - **core** — tooling, structure, DI, tests (language-wide)
 - **adapters** — HTTP, persistence (only if the repo uses them)
-- **enforcement** — matching linter skills in the same section
+- **enforcement** — matching linter skills in the same section; not every ID is
+  required with the stack (`di-linter` is optional)
 
 Do not collapse a stack into one catch-all rule ID or a comma-separated library
 list after the table. Templates (`STRUCTURES.md`, `DATABASE.md`, `CONFTEST.md`)
@@ -88,6 +89,9 @@ harnesses/agents/<id>/  → .cursor/agents/<id>/
 - Frontmatter: `description`, and either `alwaysApply: true` or `globs`.
 - English bodies. Default package root is `project/`; note in the README if the installer should substitute.
 - One concern per `.mdc`. Name the layer (tooling, HTTP, persistence); leave version pins and Ruff selects to the target `pyproject.toml`.
+- Optional enforcement (`di-linter`) stays out of default pairing lines in
+  installable rule bodies. When that ID is added to a target repo, patch those
+  companion rules so they mention it.
 - No machine-local absolute paths, source-project product names, or secrets.
 
 ## Authoring installable skills
@@ -107,7 +111,9 @@ When running or editing the setup skill:
 1. Read the README catalog; present options **by category**.
 2. Ask only what cannot be inferred; get approval before copying files.
 3. Install only approved **installable** paths; for **reference**, print
-   upstream install notes.
+   upstream install notes. Recommend `di-linter` separately from
+   `layers-linter` and `domain-types-linter`; if approved, patch companion
+   rules in the target so they name it next to the other linters.
 4. Never overwrite existing target files without asking.
 5. Do not commit API keys, tokens, or machine-local absolute paths.
 
