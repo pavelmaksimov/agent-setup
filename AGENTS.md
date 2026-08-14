@@ -54,12 +54,12 @@ Rules:
 A language stack is its own catalog category, split into layered IDs:
 
 - **core** — tooling, structure, exceptions, settings, DI, tests (language-wide)
-- **adapters** — HTTP, persistence (only if the repo uses them)
+- **adapters** — HTTP, persistence, cache (only if the repo uses them)
 - **enforcement** — matching linter skills in the same section; not every ID is
   required with the stack (`di-linter` is optional)
 
 Do not collapse a stack into one catch-all rule ID or a comma-separated library
-list after the table. Templates (`SETTINGS.md`, `STRUCTURES.md`, `DATABASE.md`, `CONFTEST.md`)
+list after the table. Templates (`SETTINGS.md`, `STRUCTURES.md`, `DATABASE.md`, `CACHE.md`, `CONFTEST.md`)
 live in the rule dir they belong to; mention the copy path on that band.
 
 ## Adding or changing catalog entries

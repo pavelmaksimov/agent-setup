@@ -8,12 +8,13 @@ alwaysApply: true
 Group modules by component (one domain per directory). Put new code in the matching layer;
 do not mix adapters with services or use cases. Lower layers do not import higher ones.
 SQLAlchemy stays in `adapters`, `orm` (`models.py`), and `repo` (`repositories.py`).
+Redis stays in `adapters` (`acache.py`) and `repo` (`*CacheRepository` in `repositories.py`).
 
 ```text
 project/
   infrastructure/apps/api.py          FastAPI app, router registration
   infrastructure/apps/main.py         production entry
-  infrastructure/adapters/            external systems (HTTP, DB, queues)
+  infrastructure/adapters/            external systems (HTTP, DB, cache, queues)
   infrastructure/utils/               framework helpers, not domain
   components/{name}/
     endpoints.py                      HTTP handlers
@@ -38,12 +39,13 @@ tests/
 `settings.py` is the pydantic-settings env contract (`python-settings`).
 `container.py` stays at package root (libs must not import infrastructure).
 `endpoints.py` and `apps/api.py` belong with the FastAPI adapter;
-`models.py` / `repositories.py` belong with the SQLAlchemy adapter.
+`models.py` belongs with the SQLAlchemy adapter;
+`repositories.py` holds SQLAlchemy and Redis cache repositories (`python-sqlalchemy`, `python-redis`).
 
 ## Layers
 
 - **Service** — stateless; hides a business process.
-- **Use case** — coordinates services; no SQL, no `AsyncSession`.
+- **Use case** — coordinates services; no SQL, no `AsyncSession`, no Redis client.
 - **Repository** — the only data-access type; stateless. One extra repository when one transaction
   spans models that do not belong together.
 - **Adapter** — facade over an external system; errors and API quirks stay here so tests can stub it.

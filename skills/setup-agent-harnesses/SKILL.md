@@ -16,7 +16,7 @@ Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
 3. Present harnesses **grouped by category**. For each category, list
    installable and reference entries separately. For **Python stack**, present
    the three bands (core, adapters, enforcement). Recommend core for any Python
-   repo, adapters that match the codebase (FastAPI, SQLAlchemy), and
+   repo, adapters that match the codebase (FastAPI, SQLAlchemy, Redis), and
    `layers-linter` plus `domain-types-linter` with the stack. Offer `di-linter`
    as optional (Container/LazyInit, DI001/DI002). Core includes `python-settings`
    (pydantic-settings, `Settings().PARAM`) as its own ID, not as part of

@@ -117,13 +117,14 @@ patch companion rules that already pair the other linters so they mention it too
 
 ```text
 Core          python-tooling · python-structure · python-exceptions · python-settings · python-di · python-tests
-Adapters      python-fastapi · python-sqlalchemy
+Adapters      python-fastapi · python-sqlalchemy · python-redis
 Enforcement   layers-linter · domain-types-linter · di-linter (optional)
 ```
 
-Recommended set for a FastAPI + Postgres service: every core and adapter row,
-plus `layers-linter` and `domain-types-linter`. Offer `di-linter` separately.
-Skip an adapter when the repo has no HTTP API or no database.
+Recommended set for a FastAPI + Postgres service: every core and adapter row
+that the repo uses, plus `layers-linter` and `domain-types-linter`. Offer
+`di-linter` separately. Skip an adapter when the repo has no HTTP API, no
+database, or no Redis cache.
 
 #### Core
 
@@ -146,9 +147,11 @@ Templates (copy only if missing): `python-settings` → `SETTINGS.md` into `proj
 |---|---|---|---|---|---|
 | `python-fastapi` | FastAPI HTTP | installable | FastAPI, SSE, ORJSON, URL versioning, httpx | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-fastapi/` → `.cursor/rules/python-fastapi/` |
 | `python-sqlalchemy` | SQLAlchemy async | installable | `asession` / `atransaction`, optional Postgres | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-sqlalchemy/` → `.cursor/rules/python-sqlalchemy/` |
+| `python-redis` | Redis cache | installable | `CacheRepository`, `redis_atransaction`, orjson | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-redis/` → `.cursor/rules/python-redis/` |
 
-Template (copy only if missing): `python-sqlalchemy` → `DATABASE.md` into
-`project/infrastructure/adapters/database.py`.
+Templates (copy only if missing): `python-sqlalchemy` → `DATABASE.md` into
+`project/infrastructure/adapters/database.py`; `python-redis` → `CACHE.md` into
+`project/infrastructure/adapters/acache.py`.
 
 #### Enforcement
 
