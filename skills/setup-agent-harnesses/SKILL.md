@@ -17,7 +17,9 @@ Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
    installable and reference entries separately. For **Python stack**, present
    the three bands (core, adapters, enforcement). Recommend core for any Python
    repo, adapters that match the codebase (FastAPI, SQLAlchemy, Redis; Alembic
-   when the repo already has `alembic/` or `alembic.ini`), and
+   when the repo already has `alembic/` or `alembic.ini`; Telegram when the repo
+   uses python-telegram-bot, `apps/bot.py`, or component `handlers.py` — skip
+   `python-telegram` when there is no Telegram bot), and
    `layers-linter` plus `domain-types-linter` with the stack. Offer `di-linter`
    as optional (Container/LazyInit, DI001/DI002). Core includes `python-settings`
    (pydantic-settings, `Settings().PARAM`) as its own ID, not as part of

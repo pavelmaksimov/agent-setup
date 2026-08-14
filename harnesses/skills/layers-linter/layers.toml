@@ -94,6 +94,9 @@ allowed_in = ["adapters", "repositories"]
 [libs.fastapi]
 allowed_in = ["presentation"]
 
+[libs.telegram]
+allowed_in = ["presentation"]
+
 [libs.starlette]
 allowed_in = ["presentation"]
 

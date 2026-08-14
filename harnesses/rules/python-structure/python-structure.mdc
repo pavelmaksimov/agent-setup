@@ -14,6 +14,7 @@ Redis stays in `adapters` (`acache.py`) and `repo` (`*CacheRepository` in `repos
 project/
   datatypes.py                        NewType domain ids and names
   infrastructure/apps/api.py          FastAPI app, router registration
+  infrastructure/apps/bot.py          Telegram bot, handler registration
   infrastructure/apps/main.py         production entry
   infrastructure/adapters/            external systems (HTTP, DB, cache, queues)
   infrastructure/utils/               framework helpers, not domain (`base_client` → adapters in layers.toml)
@@ -43,6 +44,7 @@ tests/
 `settings.py` is the pydantic-settings env contract (`python-settings`).
 `container.py` stays at package root (libs must not import infrastructure).
 `endpoints.py` and `apps/api.py` belong with the FastAPI adapter;
+`handlers.py` and `apps/bot.py` belong with the Telegram adapter (`python-telegram`);
 `models.py` belongs with the SQLAlchemy adapter;
 `repositories.py` holds SQLAlchemy and Redis cache repositories (`python-sqlalchemy`, `python-redis`).
 
