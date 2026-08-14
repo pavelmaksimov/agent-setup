@@ -9,6 +9,7 @@ Tool: [pavelmaksimov/domain-types-linter](https://github.com/pavelmaksimov/domai
 Skill: take from this catalog (`harnesses/skills/domain-types-linter/`), not from upstream.
 
 Checks type annotations so business logic names domain objects (`UserId`, `Money`) instead of universal types (`str`, `int`, `list[str]`).
+Domain `NewType`s live in `project/datatypes.py` (or the repo's existing types module): `NewType("UserIdT", Annotated[int, "User ID"])`.
 
 ## Install the tool
 

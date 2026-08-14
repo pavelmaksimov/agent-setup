@@ -24,6 +24,8 @@ Duplicate literals in tests are fine. Prefer a factory call in the test over a s
 
 Avoid test-only abstractions. Everything needed to understand a test should be in that test.
 One test checks one behavior; a pile of asserts usually means several cases.
+Assert observable outcomes (status, payload, persisted row), not object internals.
+A new ORM model also gets a `make_*` factory in `tests/factories.py`.
 
 ## Layout
 
@@ -43,9 +45,10 @@ tests/
     test_infrastructure/
 ```
 
-- **Modular** (`tests/test_modules/`): observable behavior through a use case or endpoint.
-  Stub adapters with `Container.local(...)` and HTTP fixtures. No real network, credentials,
-  or live SaaS. Testcontainers Postgres via `asession` and Redis via `python-redis` are allowed here.
+- **Modular** (`tests/test_modules/`): observable behavior through a use case or endpoint
+  (`api_client`). Stub adapters with `Container.local(...)` and HTTP fixtures. No real network,
+  credentials, or live SaaS. Testcontainers Postgres via `asession` and Redis via `python-redis`
+  are allowed here.
 - **E2E** (`tests/test_e2e/`): full cycle against real collaborators. Default CI runs
   `tests/test_modules/` only; e2e is an explicit command and needs the live stack.
 
@@ -62,6 +65,7 @@ Settings overrides: `Settings.local` / `Settings.override` (`python-settings`).
 
 Fixtures `httpx_responses` (respx), `aiohttp_responses` (aioresponses), `requests_mock`
 (requests-mock), `api_client`, and `openai_chat_completion_response` live in `CONFTEST.md`.
+If the API is token-gated, `api_client` sends `Api-Token` from `Settings()`.
 
 ```python
 def test_external_api(httpx_responses):

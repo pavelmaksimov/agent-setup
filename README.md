@@ -131,7 +131,7 @@ database, or no Redis cache.
 | ID | Name | Kind | Summary | Upstream | Install from |
 |---|---|---|---|---|---|
 | `python-tooling` | Python tooling | installable | uv, Ruff, Black, isort, pre-commit, logging | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-tooling/` → `.cursor/rules/python-tooling/` |
-| `python-structure` | Python structure | installable | Components, layers, adapters, `layers.toml` | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-structure/` → `.cursor/rules/python-structure/` |
+| `python-structure` | Python structure | installable | Components, layers, adapters, domain types, `layers.toml` | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-structure/` → `.cursor/rules/python-structure/` |
 | `python-exceptions` | Python exceptions | installable | `AppError` hierarchy, where to put error types | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-exceptions/` → `.cursor/rules/python-exceptions/` |
 | `python-settings` | Python settings | installable | pydantic-settings env contract, `Settings().PARAM` | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-settings/` → `.cursor/rules/python-settings/` |
 | `python-di` | Python DI | installable | LazyInit, Container, LazyService — no process globals | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-di/` → `.cursor/rules/python-di/` |
@@ -145,8 +145,8 @@ Templates (copy only if missing): `python-settings` → `SETTINGS.md` into `proj
 
 | ID | Name | Kind | Summary | Upstream | Install from |
 |---|---|---|---|---|---|
-| `python-fastapi` | FastAPI HTTP | installable | FastAPI, SSE, ORJSON, URL versioning, httpx | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-fastapi/` → `.cursor/rules/python-fastapi/` |
-| `python-sqlalchemy` | SQLAlchemy async | installable | `asession` / `atransaction`, optional Postgres | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-sqlalchemy/` → `.cursor/rules/python-sqlalchemy/` |
+| `python-fastapi` | FastAPI HTTP | installable | FastAPI, SSE, ORJSON, URL versioning, AppError handlers, httpx | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-fastapi/` → `.cursor/rules/python-fastapi/` |
+| `python-sqlalchemy` | SQLAlchemy async | installable | `asession` / `atransaction`, ORM models, optional Postgres | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-sqlalchemy/` → `.cursor/rules/python-sqlalchemy/` |
 | `python-redis` | Redis cache | installable | `CacheRepository`, `redis_atransaction`, orjson | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-redis/` → `.cursor/rules/python-redis/` |
 
 Templates (copy only if missing): `python-sqlalchemy` → `DATABASE.md` into

@@ -49,6 +49,14 @@ Container = LazyInit(Services)
 A client that is **not** in the container may use `@functools.cache` on a factory function.
 Components still prefer `Container`.
 
+```python
+from functools import cache
+
+@cache
+def weather_client() -> WeatherClient:
+    return WeatherClient(api_key=Settings().WEATHER_API_KEY.get_secret_value())
+```
+
 ## Tests
 
 - `Container.local(**kwargs)` — `ContextVar`, current async context.

@@ -32,3 +32,7 @@ Operational constants shared across components live in `Constants` (`python-sett
 Import from the concrete module; do not barrel-reexport in `__init__.py`.
 Do not wrap package imports in try/except. Do not add `__future__` imports.
 In async code use `asyncio.Lock()`, not `threading.Lock()`.
+Async context managers: `@asynccontextmanager` from `contextlib`, not a class with `__aenter__` / `__aexit__`.
+Shape tabular data with SQL or annotated lists/dicts (`TypedDict`, dataclass). Do not add Pandas or Polars.
+Serialize with JSON (`orjson` where the stack already uses it), not pickle.
+Persist durable state in the database or Redis, not in module globals or ad-hoc files.

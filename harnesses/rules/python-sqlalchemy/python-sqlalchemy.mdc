@@ -1,5 +1,5 @@
 ---
-description: SQLAlchemy async adapter — asession, atransaction, optional Postgres
+description: SQLAlchemy async adapter — asession, atransaction, ORM models, optional Postgres
 globs:
   - "**/adapters/database.py"
   - "**/models.py"
@@ -34,13 +34,29 @@ Optional `DB_SCHEMA` → `search_path`. `DATABASE_PRE_PING` on the engine.
 If the product can run without Postgres, skip persistence when `database_is_configured()` is false;
 do not fail at import. Side-effect writes log `logger.exception` and leave the main flow running.
 Writes that are the result still go through a repository inside `atransaction()`.
+A use case that must write through several repositories wraps the calls in one `atransaction()`
+(or a `Repositories.transaction()` helper on the container, if the repo already has one).
 
-Do not add Alembic (or another migration tool) unless the repo already has one. Create tables from
-ORM metadata (`create_all` / `create_all_tables`); production DDL is applied separately.
+If the repo already has Alembic (or another migrator), generate a revision after every model change
+and apply it (`uv run alembic revision --autogenerate -m "…"`, `uv run alembic upgrade head`).
+Downgrade before switching to a branch whose revisions lag. Do not add a migrator to a repo that
+creates tables from metadata only (`create_all` / `create_all_tables`).
 
-ORM models inherit a shared `Base`. JSON columns use `JSONB`. Foreign keys set `ondelete` when
-cascade/restrict matters. Services and use cases never import SQLAlchemy, never create
-`AsyncSession`, never write SQL — only repositories do.
+## ORM models
+
+SQLAlchemy 2.0: `Mapped` / `mapped_column`, shared `Base`. JSON columns use `JSONB`.
+Foreign keys set `ondelete` when cascade/restrict matters. Identity and other entity keys use
+domain types from `project/datatypes.py`, not bare `int` / `str`. Primary keys: `BigInteger`.
+Postgres enums: `class Role(str, enum.Enum)` + `mapped_column(Enum(Role, name="role_enum"))`.
+Many-to-many: `ARRAY` of ids (`Mapped[list[TagIdT]]`), not an association table.
+Index columns used for filter, sort, or FK lookup.
+Application rules stay in Python — no new triggers or stored procedures.
+
+A new model also gets a `make_*` factory in `tests/factories.py`. Follow existing `__tablename__`
+style in the repo.
+
+Services and use cases never import SQLAlchemy, never create `AsyncSession`, never write SQL —
+only repositories do.
 
 Tests: Testcontainers Postgres, schema via `create_all`, then a nested transaction per test and
 rollback (fixtures in `python-tests` / `CONFTEST.md`). Row data stays in the test or a `make_*` factory.

@@ -95,6 +95,9 @@ harnesses/agents/<id>/  → .cursor/agents/<id>/
   installable rule bodies. When that ID is added to a target repo, patch those
   companion rules so they mention it.
 - No machine-local absolute paths, source-project product names, or secrets.
+- When enriching an installable rule from a source template, map each spec into the matching
+  catalog ID. Leave unmatched concerns (bots, product metric prefixes, named third-party SaaS
+  adapters) out until they have their own ID.
 
 ## Authoring installable skills
 

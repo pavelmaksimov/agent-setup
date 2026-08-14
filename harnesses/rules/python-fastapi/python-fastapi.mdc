@@ -21,7 +21,7 @@ uv run uvicorn project.infrastructure.apps.api:app --host 0.0.0.0 --loop uvloop
 
 ## Responses
 
-Use a shared envelope schema as `response_model` when the OpenAPI shape matters.
+Use a shared envelope schema (`ApiResponse` / `ApiResponseSchema[T]`) as `response_model` when the OpenAPI shape matters.
 Prefer `ORJSONResponse` (`response_class`) for JSON. `response_model` validation is extra cost
 on large payloads.
 
@@ -30,17 +30,35 @@ keep the old one with `deprecated=True`.
 
 Raise `fastapi.HTTPException` only in `endpoints.py`. Domain code raises `AppError` (or a subclass).
 
+Token-gated APIs: one `Depends` on the app (or router) that reads `Header(alias="Api-Token")` and
+compares it to `Settings().API_TOKEN`.
+
+## Exception handlers
+
+Register handlers on the app. Log there. Endpoints do not catch-and-return error dicts.
+
+| Raised | HTTP |
+|---|---|
+| `NotFoundError` | 404 |
+| `AuthError` | 401 |
+| `ExternalApiError` | 500 |
+| `RequestValidationError` | 422 |
+| `HTTPException` | as raised |
+| other `Exception` | 500, generic body (no internals) |
+
 ## Client disconnect
 
 On LLM or streaming work, cancel when the client goes away so GPU/DB work does not continue.
 ASGI sends `http.disconnect`; poll `await request.receive()`. Do not use `request.is_disconnected()`
-together with `BaseHTTPMiddleware` — it is unreliable.
+together with `BaseHTTPMiddleware` — it is unreliable. Helpers live in
+`project/infrastructure/utils/disconnect.py` when that module is present.
 
 | Case | Approach |
 |---|---|
-| Ordinary async endpoints | Middleware that races the handler against disconnect, or `@with_cancellation` |
+| Ordinary async endpoints | `DisconnectMiddleware` (races handler against disconnect), or `@with_cancellation` |
 | SSE / `StreamingResponse` | Let the framework cancel; `sse-starlette`. Cleanup in `finally` with `anyio.CancelScope(shield=True)` (not `asyncio.shield`) |
-| Nested async generators | `contextlib.aclosing` |
+| Granular cancel around DB / GPU | `detect_disconnect` + `cancel_on_disconnect` |
+| Nested async generators | `contextlib.aclosing` or `safe_async_generator_cleanup` |
 
 Re-raise `asyncio.CancelledError` after logging/metrics. Do not add a second manual disconnect
 check inside a generator that `EventSourceResponse` already cancels.

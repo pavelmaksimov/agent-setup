@@ -25,6 +25,7 @@ Remove imports, variables, and functions that **this** change made unused.
 Leave pre-existing dead code unless asked; mention it instead.
 
 Every changed line should trace to the user's request.
+When renaming or deleting a public type, update docs that name it.
 
 ## Goal-Driven Execution
 
