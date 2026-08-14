@@ -62,6 +62,8 @@ Skills that change how the agent designs, implements, and reviews code.
 | `logika` | Logika | reference | Classical formal logic review and rewrite of arguments | https://github.com/EvilFreelancer/logika | Install from upstream |
 | `grep-ast` | grep-ast | installable | AST-aware code search via `uvx grep-ast` | https://github.com/Aider-AI/grep-ast | Install the tool from upstream (`uvx grep-ast` / pip). Take the skill from this repo: `harnesses/skills/grep-ast/SKILL.md` → `.cursor/skills/grep-ast/SKILL.md` |
 | `layers-linter` | layers-linter | installable | Enforce Python layer and library import boundaries via `uvx layers-linter` | https://github.com/pavelmaksimov/layers-linter | Install the tool from upstream (`uvx layers-linter` / pip). Take the skill from this repo: `harnesses/skills/layers-linter/SKILL.md` → `.cursor/skills/layers-linter/SKILL.md` |
+| `domain-types-linter` | domain-types-linter | installable | Enforce domain types in business-logic annotations via `dt-linter` | https://github.com/pavelmaksimov/domain-types-linter | Install the tool from upstream (`uvx --from domain-types-linter dt-linter` / pip). Take the skill from this repo: `harnesses/skills/domain-types-linter/SKILL.md` → `.cursor/skills/domain-types-linter/SKILL.md` |
+| `di-linter` | di-linter | installable | Detect in-process construction and test patches via `uvx di-linter` | https://github.com/pavelmaksimov/di-linter | Install the tool from upstream (`uvx di-linter` / pip). Take the skill from this repo: `harnesses/skills/di-linter/SKILL.md` → `.cursor/skills/di-linter/SKILL.md` |
 
 ### Memory and knowledge
 
@@ -107,7 +109,7 @@ Cursor `.mdc` rules that shape agent behaviour in a repository.
 | `python-fastapi` | Python FastAPI service | installable | Component layout, LazyInit/Container/Settings, pytest factories, FastAPI/SSE, SQLAlchemy async, uv/ruff/black | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-fastapi/` → `.cursor/rules/python-fastapi/` |
 
 `python-fastapi` assumes package root `project/` (substitute globs if the repo differs). Pair with
-`layers-linter`. Stack: uv, FastAPI, httpx, SQLAlchemy async, orjson, sse-starlette, pytest-asyncio,
+`layers-linter`, `di-linter`, and `domain-types-linter`. Stack: uv, FastAPI, httpx, SQLAlchemy async, orjson, sse-starlette, pytest-asyncio,
 testcontainers, respx, aioresponses, requests-mock, pre-commit, Black, isort, Ruff.
 If `LazyInit` is missing, copy `STRUCTURES.md` from that rule dir into `project/libs/structures.py`.
 If the DB adapter is missing, copy `DATABASE.md` into `project/infrastructure/adapters/database.py`.
