@@ -45,6 +45,7 @@ tests/
 `logger.py` is `setup_logging()` / dictConfig (`python-logging`).
 `container.py` stays at package root (libs must not import infrastructure).
 Domain workflows with explicit states use `python-fsm` (`project/libs/fsm.py`).
+Transient I/O retries use `python-retry` (`project/libs/retry.py`).
 `endpoints.py` and `apps/api.py` belong with the FastAPI adapter;
 `handlers.py` and `apps/bot.py` belong with the Telegram adapter (`python-telegram`);
 `models.py` belongs with the SQLAlchemy adapter;

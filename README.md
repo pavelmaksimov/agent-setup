@@ -118,7 +118,7 @@ repo uses Container/LazyInit and you want DI001/DI002 enforced. If it is added,
 patch companion rules that already pair the other linters so they mention it too.
 
 ```text
-Core          python-tooling · python-structure · python-exceptions · python-settings · python-logging · python-di · python-fsm · python-tests
+Core          python-tooling · python-structure · python-exceptions · python-settings · python-logging · python-di · python-fsm · python-retry · python-tests
 Adapters      python-fastapi · python-base-client · python-sqlalchemy · python-alembic · python-redis · python-telegram · python-monitoring
 Enforcement   layers-linter · domain-types-linter · di-linter (optional)
 ```
@@ -142,12 +142,14 @@ Telegram bot. Skip `python-monitoring` when the repo does not scrape Prometheus.
 | `python-logging` | Python logging | installable | `setup_logging()` / dictConfig, levels from Settings | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-logging/` → `.cursor/rules/python-logging/` |
 | `python-di` | Python DI | installable | LazyInit, Container, LazyService — no process globals | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-di/` → `.cursor/rules/python-di/` |
 | `python-fsm` | Python FSM | installable | StateMachine / AsyncStateMachine, validated transitions | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-fsm/` → `.cursor/rules/python-fsm/` |
+| `python-retry` | Python retry | installable | `retry_on_exception` / `retry_unless_exception` for transient I/O | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-retry/` → `.cursor/rules/python-retry/` |
 | `python-tests` | Python tests | installable | pytest factories, modular vs e2e, HTTP mocks, no patch | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-tests/` → `.cursor/rules/python-tests/` |
 
 Templates (copy only if missing): `python-settings` → `SETTINGS.md` into `project/settings.py`;
 `python-logging` → `LOGGER.md` into `project/logger.py`;
 `python-di` → `STRUCTURES.md` into `project/libs/structures.py`;
 `python-fsm` → `FSM.md` into `project/libs/fsm.py`;
+`python-retry` → `RETRY.md` into `project/libs/retry.py`;
 `python-tests` → `CONFTEST.md` into `tests/conftest.py`.
 
 #### Adapters
