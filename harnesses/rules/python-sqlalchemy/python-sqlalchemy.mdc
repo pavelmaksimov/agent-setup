@@ -43,7 +43,8 @@ change and apply it. Do not add a migrator to a repo that creates tables from me
 
 ## ORM models
 
-SQLAlchemy 2.0: `Mapped` / `mapped_column`, shared `Base`. JSON columns use `JSONB`.
+SQLAlchemy 2.0: `Mapped` / `mapped_column`. Models inherit `Base` / `TimeMixin` from
+`project.components.base.models` (`python-structure`). JSON columns use `JSONB`.
 Foreign keys set `ondelete` when cascade/restrict matters. Identity and other entity keys use
 domain types from `project/datatypes.py`, not bare `int` / `str`. Primary keys: `BigInteger`.
 Postgres enums: `class Role(str, enum.Enum)` + `mapped_column(Enum(Role, name="role_enum"))`.

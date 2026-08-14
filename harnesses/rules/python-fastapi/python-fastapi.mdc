@@ -26,7 +26,8 @@ Call `setup_logging()` once in the app lifespan or `main.py` (`python-logging`).
 
 ## Responses
 
-Use a shared envelope schema (`ApiResponse` / `ApiResponseSchema[T]`) as `response_model` when the OpenAPI shape matters.
+Use a shared envelope (`ApiResponse` / `ApiResponseSchema[T]` from `project.components.base.schemas`,
+`python-structure`) as `response_model` when the OpenAPI shape matters.
 Prefer `ORJSONResponse` (`response_class`) for JSON. `response_model` validation is extra cost
 on large payloads.
 

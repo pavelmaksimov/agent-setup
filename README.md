@@ -145,7 +145,10 @@ Telegram bot. Skip `python-monitoring` when the repo does not scrape Prometheus.
 | `python-retry` | Python retry | installable | `retry_on_exception` / `retry_unless_exception` for transient I/O | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-retry/` → `.cursor/rules/python-retry/` |
 | `python-tests` | Python tests | installable | pytest factories, modular vs e2e, HTTP mocks, no patch | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-tests/` → `.cursor/rules/python-tests/` |
 
-Templates (copy only if missing): `python-settings` → `SETTINGS.md` into `project/settings.py`;
+Templates (copy only if missing): `python-structure` → `BASE_MODELS.md` into
+`project/components/base/models.py` and `BASE_SCHEMAS.md` into
+`project/components/base/schemas.py`;
+`python-settings` → `SETTINGS.md` into `project/settings.py`;
 `python-logging` → `LOGGER.md` into `project/logger.py`;
 `python-di` → `STRUCTURES.md` into `project/libs/structures.py`;
 `python-fsm` → `FSM.md` into `project/libs/fsm.py`;

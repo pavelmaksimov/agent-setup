@@ -13,10 +13,11 @@ Runtime: [python-telegram-bot](https://docs.python-telegram-bot.org/) (`Applicat
 `HTTPXRequest`, `AIORateLimiter`, `concurrent_updates`). Extra: `python-telegram-bot[job-queue,rate-limiter]`.
 Not aiogram.
 
-Handlers live in `project.components.{name}.handlers`. Register them from `project.infrastructure.apps.bot`.
-Shared handler helpers live in `project.infrastructure.utils.telegram`. If those modules are missing, copy
-sibling `TELEGRAM.md` into `project/infrastructure/utils/telegram.py` and `BOT.md` into
-`project/infrastructure/apps/bot.py`.
+Handlers live in `project.components.{name}.handlers`. Shared bot-wide handlers live in
+`project.components.base.handlers` (`python-structure`). Register them from
+`project.infrastructure.apps.bot`. Decorator helpers live in `project.infrastructure.utils.telegram`.
+If `telegram.py` or `bot.py` is missing, copy sibling `TELEGRAM.md` into
+`project/infrastructure/utils/telegram.py` and `BOT.md` into `project/infrastructure/apps/bot.py`.
 
 Token: `Settings().TELEGRAM_BOT_TOKEN` (`python-settings`, `SecretStr`). Unwrap with `.get_secret_value()` on
 `ApplicationBuilder().token(...)`. Add the field to `SettingsValidator` if it is missing.
