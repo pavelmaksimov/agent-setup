@@ -107,7 +107,9 @@ Cursor `.mdc` rules that shape agent behaviour in a repository.
 ### Python stack
 
 Opinionated backend for Python services. Default package root is `project/`
-(substitute globs if the repo differs).
+(substitute globs if the repo differs). Async entrypoints use uvloop: FastAPI via
+uvicorn `--loop uvloop`; other processes via `asyncio.Runner(loop_factory=uvloop.new_event_loop)`
+(`python-telegram` for the bot).
 
 Three bands: install **core** for any Python service, add **adapters** the repo
 actually uses, and take `layers-linter` and `domain-types-linter` with the stack
@@ -146,7 +148,7 @@ Templates (copy only if missing): `python-settings` → `SETTINGS.md` into `proj
 
 | ID | Name | Kind | Summary | Upstream | Install from |
 |---|---|---|---|---|---|
-| `python-fastapi` | FastAPI HTTP | installable | FastAPI, SSE, ORJSON, URL versioning, AppError handlers, httpx | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-fastapi/` → `.cursor/rules/python-fastapi/` |
+| `python-fastapi` | FastAPI HTTP | installable | FastAPI, SSE, ORJSON, URL versioning, AppError handlers, httpx, uvloop | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-fastapi/` → `.cursor/rules/python-fastapi/` |
 | `python-sqlalchemy` | SQLAlchemy async | installable | `asession` / `atransaction`, ORM models, optional Postgres | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-sqlalchemy/` → `.cursor/rules/python-sqlalchemy/` |
 | `python-alembic` | Alembic migrations | installable | Async Alembic env, autogenerate from ORM models, versions outside `project/` | https://alembic.sqlalchemy.org/ | `harnesses/rules/python-alembic/` → `.cursor/rules/python-alembic/` |
 | `python-redis` | Redis cache | installable | `CacheRepository`, `redis_atransaction`, orjson | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-redis/` → `.cursor/rules/python-redis/` |

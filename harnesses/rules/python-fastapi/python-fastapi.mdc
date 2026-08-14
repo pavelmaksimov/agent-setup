@@ -8,8 +8,11 @@ alwaysApply: false
 
 # FastAPI HTTP adapter
 
-Runtime: FastAPI, Starlette, `sse-starlette`, uvicorn, httpx, orjson, Pydantic v2.
+Runtime: FastAPI, Starlette, `sse-starlette`, uvicorn, uvloop, httpx, orjson, Pydantic v2.
 Prefer **httpx** over `requests` in application code.
+
+Install uvloop (`uv add uvloop`) and run uvicorn with `--loop uvloop`. Do not run FastAPI on
+the default asyncio loop in production or entry scripts.
 
 Endpoints live in `project.components.{name}.endpoints`. Register routers on the app in
 `project.infrastructure.apps.api`. Take services from `Container()`, not from FastAPI `Depends`

@@ -11,6 +11,7 @@ Tool versions and Ruff selects live in `pyproject.toml` — follow that file, do
 Package manager: **uv**. Run tools with `uv run`. Line length **120** (Ruff, Black, isort).
 Ban parent-relative imports (`from ..x`). Format with Black; lint with Ruff; sort imports with isort.
 Install `pre-commit` hooks; they run Black, Ruff, and `uv export` for lock-style requirements.
+Async processes install and run with **uvloop** (`uv add uvloop`).
 
 ```bash
 uv sync --all-groups
