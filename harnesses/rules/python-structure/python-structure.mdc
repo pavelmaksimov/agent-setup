@@ -16,9 +16,10 @@ project/
   infrastructure/apps/api.py          FastAPI app, router registration
   infrastructure/apps/main.py         production entry
   infrastructure/adapters/            external systems (HTTP, DB, cache, queues)
-  infrastructure/utils/               framework helpers, not domain
+  infrastructure/utils/               framework helpers, not domain (`base_client` → adapters in layers.toml)
   components/{name}/
     endpoints.py                      HTTP handlers
+    handlers.py                       bot I/O (presentation in layers.toml)
     use_cases.py                      orchestration
     service.py                        stateless domain behavior
     repositories.py                   all data access
@@ -71,7 +72,8 @@ Per-agent state under `ai/{agent}/` is a Pydantic model (TypedDict at minimum), 
 
 New external system → new module under `infrastructure/adapters/`. Raise `AppError` subclasses
 (`python-exceptions`). HTTP clients use **httpx**, or the repo's existing `base_client`
-(`AsyncApi` / `SyncApi`) if that helper is already there. Tests stub the adapter through
+(`AsyncApi` / `SyncApi`) if that helper is already there (`layers.toml`: adapters,
+not presentation). Tests stub the adapter through
 `Container.local(...)` (`python-tests`).
 
 If `layers.toml` is missing, copy the `layers-linter` skill template to the

@@ -15,6 +15,14 @@ exclude-objects = [
     "*DTO",
     "*Dto",
     "*T",  # NewType constructors (UserIdT, …)
+    "*Error",
+    "*Model",
+    "*Enum",
+    "setup_logging",
+    "redis_atransaction",
+    "redis_transaction",
+    "isolated_redis_atransaction",
+    "isolated_redis_transaction",
 ]
 
 exclude-modules = [
@@ -24,8 +32,12 @@ exclude-modules = [
     "project.infrastructure.apps.*",
     "project.infrastructure.adapters",
     "project.infrastructure.adapters.*",
+    "project.infrastructure.utils",
+    "project.infrastructure.utils.*",
     "project.components.*.endpoints",
     "project.components.*.endpoints.*",
+    "project.components.*.handlers",
+    "project.components.*.handlers.*",
     "project.components.*.cli",
     "project.components.*.cli.*",
     "project.components.*.models",

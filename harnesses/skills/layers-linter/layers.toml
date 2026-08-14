@@ -21,10 +21,12 @@ contains_modules = [
 depends_on = ["libs"]
 
 [layers.adapters]
-description = "Facades over external systems (HTTP, DB, cache, queues)"
+description = "Facades over external systems (HTTP, DB, cache, queues) and the HTTP client helper"
 contains_modules = [
     "project.infrastructure.adapters",
     "project.infrastructure.adapters.*",
+    "project.infrastructure.utils.base_client",
+    "project.infrastructure.utils.base_client.*",
 ]
 depends_on = ["libs", "adapters"]
 
@@ -55,6 +57,7 @@ contains_modules = [
     "project.components.*.use_cases",
     "project.components.*.use_cases.*",
     "project.components.*.validation",
+    "project.components.*.validation.*",
 ]
 depends_on = ["dicontainer", "services", "libs", "usecases"]
 
@@ -64,7 +67,7 @@ contains_modules = ["project.container"]
 depends_on = ["libs"]
 
 [layers.presentation]
-description = "HTTP/CLI entry: endpoints, app factory, framework helpers"
+description = "HTTP, CLI, and bot I/O: endpoints, handlers, app factory, framework helpers"
 contains_modules = [
     "project.infrastructure.apps",
     "project.infrastructure.apps.*",
@@ -72,8 +75,14 @@ contains_modules = [
     "project.infrastructure.utils.*",
     "project.components.*.endpoints",
     "project.components.*.endpoints.*",
+    "project.components.*.handlers",
+    "project.components.*.handlers.*",
     "project.components.*.cli",
     "project.components.*.cli.*",
+]
+exclude_modules = [
+    "project.infrastructure.utils.base_client",
+    "project.infrastructure.utils.base_client.*",
 ]
 depends_on = ["dicontainer", "usecases", "services", "libs", "presentation"]
 
@@ -96,3 +105,21 @@ allowed_in = ["adapters", "repositories"]
 
 [libs.httpx]
 allowed_in = ["adapters"]
+
+[libs.requests]
+allowed_in = []  # use httpx
+
+[libs.pandas]
+allowed_in = []
+
+[libs.polars]
+allowed_in = []
+
+[libs.alembic]
+allowed_in = []  # migrations live outside project/
+
+[libs.pytest]
+allowed_in = []  # tests live outside project/
+
+[libs.unittest]
+allowed_in = []
