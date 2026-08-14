@@ -40,4 +40,4 @@ feat(rules): propose Conventional Commit after each completed task
 
 If the skill `conventional-commits` is available, follow it for drafting and validation.
 
-Do not write the commit author email.
+Do not add `Co-authored-by` trailers (including Cursor / `cursoragent@cursor.com`).

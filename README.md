@@ -58,7 +58,7 @@ Skills that change how the agent designs, implements, and reviews code.
 | `mattpocock-skills` | Matt Pocock skills | reference | Engineering skills pack (triage, planning, implementation) | https://github.com/mattpocock/skills | Clone/copy skills from upstream |
 | `deslop` | deslop | reference | Remove AI-generated code slop against the main-branch diff | https://github.com/cursor/plugins/blob/main/cursor-team-kit/skills/deslop/SKILL.md | From Cursor Team Kit / plugins |
 | `thermo-nuclear-code-quality-review` | Thermo-nuclear code quality review | reference | Extremely strict maintainability review — ambitious restructuring | https://github.com/cursor/plugins/blob/main/cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md | From Cursor Team Kit / plugins |
-| `weekly-review` | Weekly review | reference | Weekly synthesis of authored commits by bugfix, tech debt, net-new | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills | From Cursor Team Kit / plugins; do not write the commit author email |
+| `weekly-review` | Weekly review | reference | Weekly synthesis of authored commits by bugfix, tech debt, net-new | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills | From Cursor Team Kit / plugins |
 | `logika` | Logika | reference | Classical formal logic review and rewrite of arguments | https://github.com/EvilFreelancer/logika | Install from upstream |
 | `grep-ast` | grep-ast | installable | AST-aware code search via `uvx grep-ast` | https://github.com/Aider-AI/grep-ast | Install the tool from upstream (`uvx grep-ast` / pip). Take the skill from this repo: `harnesses/skills/grep-ast/SKILL.md` → `.cursor/skills/grep-ast/SKILL.md` |
 
