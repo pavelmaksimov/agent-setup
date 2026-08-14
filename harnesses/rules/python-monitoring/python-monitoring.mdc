@@ -66,10 +66,16 @@ request = HTTPXRequest(httpx_kwargs={"transport": TelegramHTTPXTransportWithMoni
 
 ## Outbound HTTP
 
-Prefer `HttpxClientWithMonitoring` (httpx is the stack default). `name_for_monitoring` is required;
-API clients suffix `_api`. Override `clear_resource_path` so `resource` has no high-cardinality IDs
-(`/users/123` → `/users/{user_id}`). Use `ClientSessionWithMonitoring` only if the repo already uses
-aiohttp.
+Named adapters that must map HTTP failures to `AppError` (`ClientError` / `ServerError` /
+`ExternalApiError`) use `python-base-client` (`AsyncApi` / `SyncApi`). That helper records HTTP
+metrics when this harness is installed (`is_build_metrics` / `http_tracking`); do not also wrap
+its session in `HttpxClientWithMonitoring` (double-count). Pass `resource_for_monitoring` as a
+path template with no IDs.
+
+Use `HttpxClientWithMonitoring` when you only need a tracked httpx client without that mapping.
+`name_for_monitoring` is required; API clients suffix `_api`. Override `clear_resource_path` so
+`resource` has no high-cardinality IDs (`/users/123` → `/users/{user_id}`). Use
+`ClientSessionWithMonitoring` only if the repo already uses aiohttp.
 
 ## Optional
 

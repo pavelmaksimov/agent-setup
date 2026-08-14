@@ -74,10 +74,10 @@ Per-agent state under `ai/{agent}/` is a Pydantic model (TypedDict at minimum), 
 ## Adapters
 
 New external system → new module under `infrastructure/adapters/`. Raise `AppError` subclasses
-(`python-exceptions`). HTTP clients use **httpx**, or the repo's existing `base_client`
-(`AsyncApi` / `SyncApi`) if that helper is already there (`layers.toml`: adapters,
-not presentation). Tests stub the adapter through
-`Container.local(...)` (`python-tests`).
+(`python-exceptions`). Outbound HTTP APIs subclass or compose `AsyncApi` / `SyncApi` from
+`python-base-client` (`project/infrastructure/utils/base_client.py`; copy that rule's `CLIENT.md`
+if missing). Prefer **httpx** (stack default). `layers.toml`: `base_client` is adapters, not
+presentation. Tests stub the adapter through `Container.local(...)` (`python-tests`).
 
 If `layers.toml` is missing, copy the `layers-linter` skill template to the
 repository root (substitute the package name if it is not `project`). Keep it in

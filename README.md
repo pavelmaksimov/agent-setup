@@ -119,16 +119,17 @@ patch companion rules that already pair the other linters so they mention it too
 
 ```text
 Core          python-tooling · python-structure · python-exceptions · python-settings · python-di · python-fsm · python-tests
-Adapters      python-fastapi · python-sqlalchemy · python-alembic · python-redis · python-telegram · python-monitoring
+Adapters      python-fastapi · python-base-client · python-sqlalchemy · python-alembic · python-redis · python-telegram · python-monitoring
 Enforcement   layers-linter · domain-types-linter · di-linter (optional)
 ```
 
 Recommended set for a FastAPI + Postgres service: every core and adapter row
 that the repo uses, plus `layers-linter` and `domain-types-linter`. Offer
-`di-linter` separately. Skip an adapter when the repo has no HTTP API, no
-database, or no Redis cache. Skip `python-alembic` when tables are created
-from metadata only (`create_all`). Skip `python-telegram` when the repo has no Telegram bot.
-Skip `python-monitoring` when the repo does not scrape Prometheus.
+`di-linter` separately. Skip `python-fastapi` when the repo has no inbound HTTP API.
+Skip `python-base-client` when the repo has no outbound HTTP adapters. Skip an adapter
+when the repo has no database or no Redis cache. Skip `python-alembic` when tables are
+created from metadata only (`create_all`). Skip `python-telegram` when the repo has no
+Telegram bot. Skip `python-monitoring` when the repo does not scrape Prometheus.
 
 #### Core
 
@@ -152,13 +153,15 @@ Templates (copy only if missing): `python-settings` → `SETTINGS.md` into `proj
 | ID | Name | Kind | Summary | Upstream | Install from |
 |---|---|---|---|---|---|
 | `python-fastapi` | FastAPI HTTP | installable | FastAPI, SSE, ORJSON, URL versioning, AppError handlers, httpx, uvloop | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-fastapi/` → `.cursor/rules/python-fastapi/` |
+| `python-base-client` | HTTP adapter helper | installable | httpx `AsyncApi` / `SyncApi`, AppError mapping, Session reuse | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-base-client/` → `.cursor/rules/python-base-client/` |
 | `python-sqlalchemy` | SQLAlchemy async | installable | `asession` / `atransaction`, ORM models, optional Postgres | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-sqlalchemy/` → `.cursor/rules/python-sqlalchemy/` |
 | `python-alembic` | Alembic migrations | installable | Async Alembic env, autogenerate from ORM models, versions outside `project/` | https://alembic.sqlalchemy.org/ | `harnesses/rules/python-alembic/` → `.cursor/rules/python-alembic/` |
 | `python-redis` | Redis cache | installable | `CacheRepository`, `redis_atransaction`, orjson | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-redis/` → `.cursor/rules/python-redis/` |
 | `python-telegram` | Telegram bot | installable | python-telegram-bot polling, handlers, error decorators | https://docs.python-telegram-bot.org/ | `harnesses/rules/python-telegram/` → `.cursor/rules/python-telegram/` |
 | `python-monitoring` | Prometheus metrics | installable | FastAPI `/prometheus`, action tracking, monitored httpx | https://pypi.org/project/llm_common/ | Rule: `harnesses/rules/python-monitoring/` → `.cursor/rules/python-monitoring/`. Tool from PyPI `llm_common` (`uv add llm_common prometheus_client`); skill/rule from this repo. Do not confuse with PyPI `pycommons`. |
 
-Templates (copy only if missing): `python-sqlalchemy` → `DATABASE.md` into
+Templates (copy only if missing): `python-base-client` → `CLIENT.md` into
+`project/infrastructure/utils/base_client.py`; `python-sqlalchemy` → `DATABASE.md` into
 `project/infrastructure/adapters/database.py`; `python-alembic` → `ENV.md` into
 `alembic/env.py`; `python-redis` → `CACHE.md` into
 `project/infrastructure/adapters/acache.py`; `python-telegram` → `TELEGRAM.md`
