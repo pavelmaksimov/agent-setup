@@ -69,3 +69,8 @@ check inside a generator that `EventSourceResponse` already cancels.
 Fire-and-forget side I/O (metrics, audit) from an endpoint: `asyncio.create_task(...)` without
 await when the response does not depend on it; log failures, do not fail the request.
 Wait when the write is part of the result (DB commit, payment).
+
+## Prometheus
+
+When `python-monitoring` is installed, register `fastapi_tracking_middleware` and `GET /prometheus`
+via `fastapi_endpoint_for_prometheus`. Follow that harness; do not hand-roll a scrape endpoint.

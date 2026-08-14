@@ -43,8 +43,8 @@ Rules:
 - Never vendor upstream/reference skills, rules, hooks, or agents into
   `harnesses/`.
 - Hybrid case (e.g. `grep-ast`, `layers-linter`, `domain-types-linter`,
-  `di-linter`): tool from upstream; skill from this repo under
-  `harnesses/skills/<id>/`. State both in the README Notes column.
+  `di-linter`, `python-monitoring`): tool from upstream; skill or rule from this
+  repo under the matching typed dir. State both in the README Notes column.
 - CLIs/plugins/frameworks (`agent-browser`, `keenable-cli`, Cursor plugins,
   oh-my-*, Superpowers, AG2, …) are **reference** even if a usage skill could
   be written here.
@@ -54,7 +54,7 @@ Rules:
 A language stack is its own catalog category, split into layered IDs:
 
 - **core** — tooling, structure, exceptions, settings, DI, tests (language-wide)
-- **adapters** — HTTP, persistence, cache (only if the repo uses them)
+- **adapters** — HTTP, persistence, cache, monitoring (only if the repo uses them)
 - **enforcement** — matching linter skills in the same section; not every ID is
   required with the stack (`di-linter` is optional)
 
@@ -98,8 +98,8 @@ harnesses/agents/<id>/  → .cursor/agents/<id>/
   companion rules so they mention it.
 - No machine-local absolute paths, source-project product names, or secrets.
 - When enriching an installable rule from a source template, map each spec into the matching
-  catalog ID. Leave unmatched concerns (bots, product metric prefixes, named third-party SaaS
-  adapters) out until they have their own ID.
+  catalog ID. Product metric prefixes belong in `python-monitoring`. Leave unmatched concerns
+  (named third-party SaaS auth adapters) out until they have their own ID.
 
 ## Authoring installable skills
 

@@ -4,7 +4,9 @@ Copy this module to `project/infrastructure/apps/bot.py` when the package does n
 the bot process. Token comes from `Settings().TELEGRAM_BOT_TOKEN` (`python-settings`). Register
 component handlers here; do not put use-case logic in this file.
 
-Use the default `HTTPXRequest()`. Pair with monitoring when that harness is installed.
+Use the default `HTTPXRequest()`. When `python-monitoring` is installed, pass
+`TelegramHTTPXTransportWithMonitoring` via `HTTPXRequest(httpx_kwargs={"transport": ...})` and
+decorate handlers with `action_tracking_decorator("…_handler")` inside `processing_errors`.
 
 ```python
 import asyncio

@@ -21,9 +21,12 @@ Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
    uses python-telegram-bot, `apps/bot.py`, or component `handlers.py` — skip
    `python-telegram` when there is no Telegram bot), and
    `layers-linter` plus `domain-types-linter` with the stack. Offer `di-linter`
-   as optional (Container/LazyInit, DI001/DI002). Core includes `python-settings`
-   (pydantic-settings, `Settings().PARAM`) as its own ID, not as part of
-   `python-di`. Do not offer the stack as one catch-all ID.
+   as optional (Container/LazyInit, DI001/DI002). Recommend `python-monitoring`
+   when the repo scrapes Prometheus, exposes `/prometheus`, or wants `llm_common`
+   metrics (`uv add llm_common prometheus_client` — PyPI `llm_common`, not
+   `pycommons`); skip it when the repo does not scrape Prometheus. Core includes
+   `python-settings` (pydantic-settings, `Settings().PARAM`) as its own ID, not as
+   part of `python-di`. Do not offer the stack as one catch-all ID.
 4. Filter out entries that clearly do not fit the repo.
 5. Ask the user only about choices that cannot be inferred:
    - which categories matter for this repo;

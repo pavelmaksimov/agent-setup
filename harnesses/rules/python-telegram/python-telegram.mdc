@@ -34,8 +34,10 @@ with asyncio.Runner(loop_factory=uvloop.new_event_loop) as runner:
 ```
 
 Build with `ApplicationBuilder().token(...).request(HTTPXRequest()).rate_limiter(AIORateLimiter(max_retries=3)).concurrent_updates(True)`.
-Poll with `application.updater.start_polling()`. Pair with monitoring when that harness is installed (do not
-add a custom HTTPX transport or an action-tracking decorator here).
+Poll with `application.updater.start_polling()`. When `python-monitoring` is installed, pass
+`TelegramHTTPXTransportWithMonitoring` on `HTTPXRequest` (`httpx_kwargs={"transport": ...}`) and
+decorate handlers with `action_tracking_decorator("…_handler")` **inside** `processing_errors`. Do
+not add that transport or decorator unless that harness is present.
 
 ## Decorators
 
@@ -63,8 +65,9 @@ Call stack (outer → inner): `timeout_with_retry` → `processing_errors` → h
 |---|---|
 | `timeout_with_retry` | Outermost. `asyncio.wait_for` around the inner stack; on timeout, tell the user and retry; re-raise after the last attempt so `processing_errors` does not treat `TimeoutError` as a generic failure. |
 | `processing_errors` | Catch `AuthError` / `Exception`, log, reply. The only place handlers report failures to the user. |
+| `action_tracking_decorator("…_handler")` | When `python-monitoring` is installed. Inside `processing_errors`, outside the handler (and `check_auth` if present). |
 | `check_auth` | Innermost, **only** when the repo already has an auth collaborator. Raises `AuthError`. Do not add Keycloak, `auth_client`, or other SaaS auth for this harness. |
 
-If `check_auth` exists, place it **below** `processing_errors` (closest to the handler). If a monitoring
-decorator is added later, place it inside `processing_errors` and outside the handler (and `check_auth` if
-present).
+If `check_auth` exists, place it **below** `processing_errors` (closest to the handler). When
+`python-monitoring` is installed, place `action_tracking_decorator("…_handler")` inside
+`processing_errors` and outside the handler (and `check_auth` if present).
