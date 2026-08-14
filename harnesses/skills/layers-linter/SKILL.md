@@ -52,8 +52,9 @@ mypackage/domain/service.py:3: Layers [domain] cannot use restricted library 'sq
 
 ## Workflow
 
-1. Read existing `layers.toml` if present. Match its layer names; do not invent a parallel scheme.
-2. If introducing the linter: map directories to layers, draft config, **ask before writing** `layers.toml` or adding CI.
+1. Read existing `layers.toml` if present. Match its layer names; do not invent a parallel `domains/` scheme.
+2. If introducing the linter: copy sibling `layers.toml` to the repository root
+   (substitute `project` if the package name differs), **ask before writing**.
 3. Run the CLI on the package directory.
 4. Fix every finding (see below). Prefer moving the import or depending on an interface over widening `depends_on` / `allowed_in`.
 5. Widen the allowlists only with explicit user approval.
@@ -62,38 +63,9 @@ mypackage/domain/service.py:3: Layers [domain] cannot use restricted library 'sq
 
 ## `layers.toml`
 
-```toml
-exclude_modules = ["*.__init__"]
-
-[layers]
-
-[layers.presentation]
-contains_modules = ["mypackage.presentation.*", "mypackage.domains.*.endpoints"]
-depends_on = ["dicontainer", "usecases", "libs"]
-
-[layers.usecases]
-contains_modules = ["mypackage.domains.*.use_cases", "mypackage.domains.*.use_cases.*"]
-depends_on = ["libs"]
-
-[layers.infrastructure]
-contains_modules = [
-    "mypackage.infrastructure.*",
-    "mypackage.domains.*.repositories",
-    "mypackage.domains.*.models",
-]
-depends_on = ["libs"]
-
-[layers.libs]
-contains_modules = ["mypackage.logger", "*.exceptions", "*.interfaces", "*.schemas"]
-depends_on = []
-
-[libs]
-[libs.sqlalchemy]
-allowed_in = ["infrastructure"]
-
-[libs.fastapi]
-allowed_in = ["presentation"]
-```
+Canonical template: sibling `layers.toml` (`project/` + `components/`, matching
+`python-structure`). Copy to the repository root; substitute the package name if
+needed. Do not keep a parallel `domains/` layout.
 
 ### Layers
 
@@ -122,7 +94,7 @@ Section name is the **importable package** (`sqlalchemy`, `fastapi`), not a laye
 
 - Lib absent from `[libs]` — unrestricted
 - `allowed_in` omitted / `"none"` — unrestricted
-- `allowed_in = ["infrastructure"]` — only those layers; everywhere else is **LA020** (including modules with no layer)
+- `allowed_in = ["adapters"]` — only those layers; everywhere else is **LA020** (including modules with no layer)
 
 Old key `upstream` is accepted as an alias of `allowed_in`; write `allowed_in`.
 

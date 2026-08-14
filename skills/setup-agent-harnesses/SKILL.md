@@ -36,6 +36,8 @@ Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
    approved, after copying it, follow that skill's companion-rule patch so
    installed `python-structure` / `python-di` / `python-tests` name it next to
    the other linters. Skip the patch when `di-linter` was not approved.
+   For `layers-linter` / `di-linter`, copy the sibling toml to the target repo
+   root when missing (substitute `project` if the package name differs).
 9. For **reference** rows, print the upstream URL and notes; install from
    upstream. Do not treat a missing local mirror as something to recreate here
    (e.g. `agent-browser` needs the upstream CLI).

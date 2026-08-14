@@ -61,6 +61,8 @@ A language stack is its own catalog category, split into layered IDs:
 Do not collapse a stack into one catch-all rule ID or a comma-separated library
 list after the table. Templates (`SETTINGS.md`, `STRUCTURES.md`, `DATABASE.md`, `CACHE.md`, `CONFTEST.md`)
 live in the rule dir they belong to; mention the copy path on that band.
+Linter configs (`layers.toml`, `di.toml`) live next to their skills and copy to
+the target repo root.
 
 ## Adding or changing catalog entries
 
@@ -108,6 +110,9 @@ harnesses/agents/<id>/  → .cursor/agents/<id>/
   cite the official spec URL and follow it.
 - `keep-a-changelog` must ask changelog language before writing entries.
 - Prefer English skill bodies in this public repo.
+- Linter config templates (`layers.toml`, `di.toml`) and skill examples use
+  package root `project/` and `components/`, matching `python-structure`. Do not
+  keep a parallel `domains/` layout.
 
 ## Bootstrap behaviour
 

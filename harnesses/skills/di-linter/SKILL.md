@@ -52,7 +52,10 @@ tests/test_modules/test_orders.py:8: Patch usage in tests: @patch('project.compo
 ## Workflow
 
 1. Read existing `di.toml` if present. Keep its exclude patterns; do not invent a parallel scheme.
-2. If introducing the linter: map the composition root vs injectable services, draft config, **ask before writing** `di.toml` or adding CI. Patch companion rules that already pair other linters so they mention `di-linter`:
+2. If introducing the linter: copy sibling `di.toml` to the repository root
+   (substitute `project` if the package name differs), **ask before writing**.
+   Keep its exclude patterns; do not invent a parallel scheme. Patch companion
+   rules that already pair other linters so they mention `di-linter`:
 
 ```text
 python-structure pairing:
@@ -109,20 +112,10 @@ repository = UserRepository()  # di: skip
 
 Optional. Search order: `--config-path`, else `./di.toml`, else `di.toml` next to the project root.
 
-```toml
-exclude-objects = [
-    "Settings",
-    "Container",
-    "*Factory",
-]
-
-exclude-modules = [
-    "project.container",
-    "project.components.*.endpoints",
-]
-
-tests-path = ["tests"]
-```
+Canonical template: sibling `di.toml` (`project/` + `components/`, matching
+`python-structure` and `python-di`). Copy to the repository root; substitute
+the package name if needed. Composition root is excluded; use cases and domain
+services stay strict.
 
 `exclude-objects` and `exclude-modules` use `fnmatch` (`*` wildcards), **case-insensitive**.
 

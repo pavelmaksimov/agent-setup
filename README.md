@@ -159,9 +159,13 @@ Hybrid: tool from upstream, skill from this repo.
 
 | ID | Name | Kind | Summary | Upstream | Notes |
 |---|---|---|---|---|---|
-| `layers-linter` | layers-linter | installable | Import boundaries between layers and libraries | https://github.com/pavelmaksimov/layers-linter | Tool: `uvx layers-linter`. Skill: `harnesses/skills/layers-linter/SKILL.md` → `.cursor/skills/layers-linter/SKILL.md` |
+| `layers-linter` | layers-linter | installable | Import boundaries between layers and libraries | https://github.com/pavelmaksimov/layers-linter | Tool: `uvx layers-linter`. Skill: `harnesses/skills/layers-linter/` → `.cursor/skills/layers-linter/`. Template: sibling `layers.toml` → repo-root `layers.toml` (copy only if missing; substitute package name if not `project/`) |
 | `domain-types-linter` | domain-types-linter | installable | Domain types in business-logic annotations | https://github.com/pavelmaksimov/domain-types-linter | Tool: `uvx --from domain-types-linter dt-linter`. Skill: `harnesses/skills/domain-types-linter/SKILL.md` → `.cursor/skills/domain-types-linter/SKILL.md` |
-| `di-linter` | di-linter | installable | Optional. In-process construction and test patches | https://github.com/pavelmaksimov/di-linter | Tool: `uvx di-linter`. Skill: `harnesses/skills/di-linter/SKILL.md` → `.cursor/skills/di-linter/SKILL.md`. If added, patch companion rules so they pair it with the other linters |
+| `di-linter` | di-linter | installable | Optional. In-process construction and test patches | https://github.com/pavelmaksimov/di-linter | Tool: `uvx di-linter`. Skill: `harnesses/skills/di-linter/` → `.cursor/skills/di-linter/`. Template: sibling `di.toml` → repo-root `di.toml` (copy only if missing; substitute package name if not `project/`). If added, patch companion rules so they pair it with the other linters |
+
+Templates (copy only if missing): `layers-linter` → `layers.toml` into repo-root
+`layers.toml`; `di-linter` → `di.toml` into repo-root `di.toml`. Substitute
+`project` if the package name differs.
 
 ### Agent frameworks (stack)
 

@@ -74,9 +74,11 @@ New external system → new module under `infrastructure/adapters/`. Raise `AppE
 (`AsyncApi` / `SyncApi`) if that helper is already there. Tests stub the adapter through
 `Container.local(...)` (`python-tests`).
 
-Keep `layers.toml` in sync when adding modules. Pair with `layers-linter` and
-`domain-types-linter`. Architecture imports:
+If `layers.toml` is missing, copy the `layers-linter` skill template to the
+repository root (substitute the package name if it is not `project`). Keep it in
+sync when adding modules. Pair with `layers-linter` and `domain-types-linter`.
+Architecture imports:
 
 ```bash
-uv run la-linter project --no-check-no-layer
+uv run la-linter project
 ```
