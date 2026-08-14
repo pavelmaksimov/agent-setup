@@ -49,6 +49,8 @@ Source of truth: https://www.conventionalcommits.org/en/v1.0.0/
 6. Add `BREAKING CHANGE: …` or `!` when the public API or behavior breaks.
 7. Return the final message ready to paste into `git commit`.
 
+Do not write the commit author email.
+
 ## Examples
 
 ```text
