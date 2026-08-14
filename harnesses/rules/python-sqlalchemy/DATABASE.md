@@ -168,5 +168,5 @@ async def get(pk):
 
 ## Test fixtures
 
-Copy `init_database` and `asession` from sibling `CONFTEST.md` into `tests/conftest.py`.
+Copy `init_database` and `asession` from the `python-tests` rule (`CONFTEST.md`) into `tests/conftest.py`.
 After a DSN override, `cache_clear()` the factories. Nested transaction + rollback isolates rows.

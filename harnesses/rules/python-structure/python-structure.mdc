@@ -1,5 +1,5 @@
 ---
-description: Component layout — apps, adapters, components, libs, Container, layers
+description: Component layout — apps, adapters, components, libs, layers
 alwaysApply: true
 ---
 
@@ -23,9 +23,9 @@ project/
     models.py                         ORM
     schemas.py                        Pydantic
     enums.py                          closed value sets
-    exceptions.py                     component errors (subclass AppError)
+    exceptions.py                     component errors
     cli.py                            CLI
-    ai/{agent}/                       agent, prompts, tools, agent schemas
+    ai/{agent}/                       agent, prompts, tools, schemas, exceptions
   libs/                               reusable, no domain, no infrastructure
   exceptions.py                       AppError
   logger.py  settings.py  container.py
@@ -36,6 +36,8 @@ tests/
 ```
 
 `container.py` stays at package root (libs must not import infrastructure).
+`endpoints.py` and `apps/api.py` belong with the FastAPI adapter;
+`models.py` / `repositories.py` belong with the SQLAlchemy adapter.
 
 ## Layers
 
@@ -46,4 +48,9 @@ tests/
 - **Adapter** — facade over an external system; errors and API quirks stay here so tests can stub it.
 - **Container** — `LazyInit(Services)`; take dependencies with `Container().…` inside methods.
 
-Keep `layers.toml` in sync when adding modules. Pair with the `layers-linter` skill.
+Keep `layers.toml` in sync when adding modules. Pair with `layers-linter`, `di-linter`,
+and `domain-types-linter`. Architecture imports:
+
+```bash
+uv run la-linter project --no-check-no-layer
+```

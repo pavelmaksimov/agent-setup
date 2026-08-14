@@ -1,12 +1,15 @@
 ---
-description: FastAPI endpoints — routers, ORJSON, URL versioning, HTTPException, SSE disconnects
+description: FastAPI HTTP adapter — routers, ORJSON, URL versioning, SSE disconnects
 globs:
   - "**/endpoints.py"
   - "**/apps/api.py"
 alwaysApply: false
 ---
 
-# FastAPI API
+# FastAPI HTTP adapter
+
+Runtime: FastAPI, Starlette, `sse-starlette`, uvicorn, httpx, orjson, Pydantic v2.
+Prefer **httpx** over `requests` in application code.
 
 Endpoints live in `project.components.{name}.endpoints`. Register routers on the app in
 `project.infrastructure.apps.api`. Take services from `Container()`, not from FastAPI `Depends`

@@ -1,33 +1,22 @@
 ---
-description: Python service toolchain — uv, pytest, ruff, black, isort, pre-commit, layers-linter
+description: Python toolchain — uv, ruff, black, isort, pre-commit, logging, hygiene
 alwaysApply: true
 ---
 
-# Python service stack
+# Python tooling
 
 Default package root is `project/` (substitute if the repo uses another name).
 Tool versions and Ruff selects live in `pyproject.toml` — follow that file, do not invent a parallel config.
 
-## Runtime
-
-FastAPI, Starlette, `sse-starlette`, uvicorn, httpx, SQLAlchemy 2 async (`asyncpg`), orjson,
-Pydantic v2, pydantic-settings. Prefer **httpx** over `requests` in application code.
-
-## Tooling
-
 Package manager: **uv**. Run tools with `uv run`. Line length **120** (Ruff, Black, isort).
 Ban parent-relative imports (`from ..x`). Format with Black; lint with Ruff; sort imports with isort.
-Architecture imports: `uv run la-linter <package> --no-check-no-layer` (`layers-linter`).
-Install `pre-commit` hooks; they run Black, Ruff, layers-linter, and `uv export` for lock-style requirements.
+Install `pre-commit` hooks; they run Black, Ruff, and `uv export` for lock-style requirements.
 
 ```bash
 uv sync --all-groups
-uv run pytest tests/test_modules/
-uv run pytest tests/test_e2e/ -n0
 uv run ruff check --fix project tests
 uv run black project tests
 uv run isort project tests
-uv run la-linter project --no-check-no-layer
 ```
 
 ## Logging

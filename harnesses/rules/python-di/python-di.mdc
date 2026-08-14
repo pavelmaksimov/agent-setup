@@ -9,6 +9,7 @@ Do not keep service or settings instances in module globals. Create them lazily 
 
 `Settings = LazyInit(SettingsValidator)` and `Container = LazyInit(Services)` live in
 `project/settings.py` and `project/container.py`. Implementation: `project/libs/structures.py`.
+`SettingsValidator` is a pydantic-settings `BaseSettings` (Pydantic v2).
 If those types are missing, copy sibling `STRUCTURES.md` into `project/libs/structures.py`
 before introducing new singletons.
 

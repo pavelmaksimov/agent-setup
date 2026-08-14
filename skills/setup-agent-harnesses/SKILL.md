@@ -14,7 +14,10 @@ Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
 2. Clone the source repository into a temporary directory and read `README.md`
    (the **Catalog** section is the source of truth).
 3. Present harnesses **grouped by category**. For each category, list
-   installable and reference entries separately.
+   installable and reference entries separately. For **Python stack**, present
+   the three bands (core, adapters, enforcement). Recommend core for any Python
+   repo, adapters that match the codebase (FastAPI, SQLAlchemy), and the three
+   linter skills with the stack. Do not offer the stack as one catch-all ID.
 4. Filter out entries that clearly do not fit the repo.
 5. Ask the user only about choices that cannot be inferred:
    - which categories matter for this repo;

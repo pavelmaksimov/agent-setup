@@ -61,9 +61,6 @@ Skills that change how the agent designs, implements, and reviews code.
 | `weekly-review` | Weekly review | reference | Weekly synthesis of authored commits by bugfix, tech debt, net-new | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills | From Cursor Team Kit / plugins; do not write the commit author email |
 | `logika` | Logika | reference | Classical formal logic review and rewrite of arguments | https://github.com/EvilFreelancer/logika | Install from upstream |
 | `grep-ast` | grep-ast | installable | AST-aware code search via `uvx grep-ast` | https://github.com/Aider-AI/grep-ast | Install the tool from upstream (`uvx grep-ast` / pip). Take the skill from this repo: `harnesses/skills/grep-ast/SKILL.md` → `.cursor/skills/grep-ast/SKILL.md` |
-| `layers-linter` | layers-linter | installable | Enforce Python layer and library import boundaries via `uvx layers-linter` | https://github.com/pavelmaksimov/layers-linter | Install the tool from upstream (`uvx layers-linter` / pip). Take the skill from this repo: `harnesses/skills/layers-linter/SKILL.md` → `.cursor/skills/layers-linter/SKILL.md` |
-| `domain-types-linter` | domain-types-linter | installable | Enforce domain types in business-logic annotations via `dt-linter` | https://github.com/pavelmaksimov/domain-types-linter | Install the tool from upstream (`uvx --from domain-types-linter dt-linter` / pip). Take the skill from this repo: `harnesses/skills/domain-types-linter/SKILL.md` → `.cursor/skills/domain-types-linter/SKILL.md` |
-| `di-linter` | di-linter | installable | Detect in-process construction and test patches via `uvx di-linter` | https://github.com/pavelmaksimov/di-linter | Install the tool from upstream (`uvx di-linter` / pip). Take the skill from this repo: `harnesses/skills/di-linter/SKILL.md` → `.cursor/skills/di-linter/SKILL.md` |
 
 ### Memory and knowledge
 
@@ -106,15 +103,56 @@ Cursor `.mdc` rules that shape agent behaviour in a repository.
 | ID | Name | Kind | Summary | Upstream | Install from |
 |---|---|---|---|---|---|
 | `agent-behavior` | Agent behavior | installable | Think before coding, simplicity first, surgical diffs, verifiable goals | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/agent-behavior/` → `.cursor/rules/agent-behavior/` |
-| `python-fastapi` | Python FastAPI service | installable | Component layout, LazyInit/Container/Settings, pytest factories, FastAPI/SSE, SQLAlchemy async, uv/ruff/black | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-fastapi/` → `.cursor/rules/python-fastapi/` |
 
-`python-fastapi` assumes package root `project/` (substitute globs if the repo differs). Pair with
-`layers-linter`, `di-linter`, and `domain-types-linter`. Stack: uv, FastAPI, httpx, SQLAlchemy async, orjson, sse-starlette, pytest-asyncio,
-testcontainers, respx, aioresponses, requests-mock, pre-commit, Black, isort, Ruff.
-If `LazyInit` is missing, copy `STRUCTURES.md` from that rule dir into `project/libs/structures.py`.
-If the DB adapter is missing, copy `DATABASE.md` into `project/infrastructure/adapters/database.py`.
-Copy `CONFTEST.md` into `tests/conftest.py` for HTTP mocks, `TestClient`, Testcontainers, and
-`Container.reset()`.
+### Python stack
+
+Opinionated backend for Python services. Default package root is `project/`
+(substitute globs if the repo differs).
+
+Three bands: install **core** for any Python service, add **adapters** the repo
+actually uses, and take the **linters** with the stack so the same boundaries are enforced.
+
+```text
+Core          python-tooling · python-structure · python-exceptions · python-di · python-tests
+Adapters      python-fastapi · python-sqlalchemy
+Enforcement   layers-linter · di-linter · domain-types-linter
+```
+
+Recommended set for a FastAPI + Postgres service: every row below.
+Skip an adapter when the repo has no HTTP API or no database.
+
+#### Core
+
+| ID | Name | Kind | Summary | Upstream | Install from |
+|---|---|---|---|---|---|
+| `python-tooling` | Python tooling | installable | uv, Ruff, Black, isort, pre-commit, logging | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-tooling/` → `.cursor/rules/python-tooling/` |
+| `python-structure` | Python structure | installable | Components, layers, adapters, `layers.toml` | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-structure/` → `.cursor/rules/python-structure/` |
+| `python-exceptions` | Python exceptions | installable | `AppError` hierarchy, where to put error types | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-exceptions/` → `.cursor/rules/python-exceptions/` |
+| `python-di` | Python DI | installable | LazyInit, Container, Settings — no process globals | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-di/` → `.cursor/rules/python-di/` |
+| `python-tests` | Python tests | installable | pytest factories, modular vs e2e, HTTP mocks, no patch | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-tests/` → `.cursor/rules/python-tests/` |
+
+Templates (copy only if missing): `python-di` → `STRUCTURES.md` into `project/libs/structures.py`;
+`python-tests` → `CONFTEST.md` into `tests/conftest.py`.
+
+#### Adapters
+
+| ID | Name | Kind | Summary | Upstream | Install from |
+|---|---|---|---|---|---|
+| `python-fastapi` | FastAPI HTTP | installable | FastAPI, SSE, ORJSON, URL versioning, httpx | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-fastapi/` → `.cursor/rules/python-fastapi/` |
+| `python-sqlalchemy` | SQLAlchemy async | installable | `asession` / `atransaction`, optional Postgres | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-sqlalchemy/` → `.cursor/rules/python-sqlalchemy/` |
+
+Template (copy only if missing): `python-sqlalchemy` → `DATABASE.md` into
+`project/infrastructure/adapters/database.py`.
+
+#### Enforcement
+
+Hybrid: tool from upstream, skill from this repo.
+
+| ID | Name | Kind | Summary | Upstream | Notes |
+|---|---|---|---|---|---|
+| `layers-linter` | layers-linter | installable | Import boundaries between layers and libraries | https://github.com/pavelmaksimov/layers-linter | Tool: `uvx layers-linter`. Skill: `harnesses/skills/layers-linter/SKILL.md` → `.cursor/skills/layers-linter/SKILL.md` |
+| `di-linter` | di-linter | installable | In-process construction and test patches | https://github.com/pavelmaksimov/di-linter | Tool: `uvx di-linter`. Skill: `harnesses/skills/di-linter/SKILL.md` → `.cursor/skills/di-linter/SKILL.md` |
+| `domain-types-linter` | domain-types-linter | installable | Domain types in business-logic annotations | https://github.com/pavelmaksimov/domain-types-linter | Tool: `uvx --from domain-types-linter dt-linter`. Skill: `harnesses/skills/domain-types-linter/SKILL.md` → `.cursor/skills/domain-types-linter/SKILL.md` |
 
 ### Agent frameworks (stack)
 

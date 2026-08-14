@@ -49,9 +49,22 @@ Rules:
   oh-my-*, Superpowers, AG2, …) are **reference** even if a usage skill could
   be written here.
 
+## Language stacks
+
+A language stack is its own catalog category, split into layered IDs:
+
+- **core** — tooling, structure, DI, tests (language-wide)
+- **adapters** — HTTP, persistence (only if the repo uses them)
+- **enforcement** — matching linter skills in the same section
+
+Do not collapse a stack into one catch-all rule ID or a comma-separated library
+list after the table. Templates (`STRUCTURES.md`, `DATABASE.md`, `CONFTEST.md`)
+live in the rule dir they belong to; mention the copy path on that band.
+
 ## Adding or changing catalog entries
 
-1. Edit the matching category table in `README.md`.
+1. Edit the matching category table in `README.md`. Language-stack pieces go in
+   the stack section (core / adapters / enforcement), not a catch-all row.
 2. If Kind is **installable**, add files under the correct typed dir and set
    `Install from` as `source → target`.
 3. If Kind is **reference**, add Upstream + Notes only — no `harnesses/` copy.
@@ -71,9 +84,10 @@ harnesses/agents/<id>/  → .cursor/agents/<id>/
 ## Authoring installable rules
 
 - One catalog ID per directory: `harnesses/rules/<id>/` with one or more `.mdc` files.
+  For a language stack, that ID is one layer, not the whole stack.
 - Frontmatter: `description`, and either `alwaysApply: true` or `globs`.
 - English bodies. Default package root is `project/`; note in the README if the installer should substitute.
-- One concern per `.mdc`. Name the stack; leave version pins and Ruff selects to the target `pyproject.toml`.
+- One concern per `.mdc`. Name the layer (tooling, HTTP, persistence); leave version pins and Ruff selects to the target `pyproject.toml`.
 - No machine-local absolute paths, source-project product names, or secrets.
 
 ## Authoring installable skills
