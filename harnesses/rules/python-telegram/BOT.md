@@ -3,6 +3,8 @@
 Copy this module to `project/infrastructure/apps/bot.py` when the package does not already define
 the bot process. Token comes from `Settings().TELEGRAM_BOT_TOKEN` (`python-settings`). Register
 component handlers here; do not put use-case logic in this file.
+Call `setup_logging()` once at process start (`python-logging`; copy `LOGGER.md` into `project/logger.py`
+if missing).
 
 Use the default `HTTPXRequest()`. When `python-monitoring` is installed, pass
 `TelegramHTTPXTransportWithMonitoring` via `HTTPXRequest(httpx_kwargs={"transport": ...})` and

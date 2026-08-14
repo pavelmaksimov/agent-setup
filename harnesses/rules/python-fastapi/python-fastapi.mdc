@@ -22,6 +22,8 @@ for domain objects.
 uv run uvicorn project.infrastructure.apps.api:app --host 0.0.0.0 --loop uvloop
 ```
 
+Call `setup_logging()` once in the app lifespan or `main.py` (`python-logging`).
+
 ## Responses
 
 Use a shared envelope schema (`ApiResponse` / `ApiResponseSchema[T]`) as `response_model` when the OpenAPI shape matters.

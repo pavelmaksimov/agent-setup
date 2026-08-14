@@ -42,6 +42,7 @@ tests/
 ```
 
 `settings.py` is the pydantic-settings env contract (`python-settings`).
+`logger.py` is `setup_logging()` / dictConfig (`python-logging`).
 `container.py` stays at package root (libs must not import infrastructure).
 Domain workflows with explicit states use `python-fsm` (`project/libs/fsm.py`).
 `endpoints.py` and `apps/api.py` belong with the FastAPI adapter;

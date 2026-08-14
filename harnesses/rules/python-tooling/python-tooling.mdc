@@ -1,5 +1,5 @@
 ---
-description: Python toolchain — uv, ruff, black, isort, pre-commit, logging, hygiene
+description: Python toolchain — uv, ruff, black, isort, pre-commit, hygiene
 alwaysApply: true
 ---
 
@@ -25,6 +25,7 @@ uv run isort project tests
 Use `logger.exception` when an exception is swallowed, converted, or followed by a fallback.
 Skip a log when the exception is re-raised unchanged and the outer boundary already logs it.
 Expected control-flow branches do not need exception logs. Do not pass `extra=` on log calls.
+Process-wide `dictConfig` / `setup_logging()` is `python-logging`.
 
 ## Hygiene
 

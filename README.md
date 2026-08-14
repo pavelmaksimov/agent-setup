@@ -118,7 +118,7 @@ repo uses Container/LazyInit and you want DI001/DI002 enforced. If it is added,
 patch companion rules that already pair the other linters so they mention it too.
 
 ```text
-Core          python-tooling · python-structure · python-exceptions · python-settings · python-di · python-fsm · python-tests
+Core          python-tooling · python-structure · python-exceptions · python-settings · python-logging · python-di · python-fsm · python-tests
 Adapters      python-fastapi · python-base-client · python-sqlalchemy · python-alembic · python-redis · python-telegram · python-monitoring
 Enforcement   layers-linter · domain-types-linter · di-linter (optional)
 ```
@@ -135,15 +135,17 @@ Telegram bot. Skip `python-monitoring` when the repo does not scrape Prometheus.
 
 | ID | Name | Kind | Summary | Upstream | Install from |
 |---|---|---|---|---|---|
-| `python-tooling` | Python tooling | installable | uv, Ruff, Black, isort, pre-commit, logging | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-tooling/` → `.cursor/rules/python-tooling/` |
+| `python-tooling` | Python tooling | installable | uv, Ruff, Black, isort, pre-commit, log call sites | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-tooling/` → `.cursor/rules/python-tooling/` |
 | `python-structure` | Python structure | installable | Components, layers, adapters, domain types, `layers.toml` | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-structure/` → `.cursor/rules/python-structure/` |
 | `python-exceptions` | Python exceptions | installable | `AppError` hierarchy, where to put error types | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-exceptions/` → `.cursor/rules/python-exceptions/` |
 | `python-settings` | Python settings | installable | pydantic-settings env contract, `Settings().PARAM` | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-settings/` → `.cursor/rules/python-settings/` |
+| `python-logging` | Python logging | installable | `setup_logging()` / dictConfig, levels from Settings | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-logging/` → `.cursor/rules/python-logging/` |
 | `python-di` | Python DI | installable | LazyInit, Container, LazyService — no process globals | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-di/` → `.cursor/rules/python-di/` |
 | `python-fsm` | Python FSM | installable | StateMachine / AsyncStateMachine, validated transitions | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-fsm/` → `.cursor/rules/python-fsm/` |
 | `python-tests` | Python tests | installable | pytest factories, modular vs e2e, HTTP mocks, no patch | https://github.com/pavelmaksimov/agent-setup | `harnesses/rules/python-tests/` → `.cursor/rules/python-tests/` |
 
 Templates (copy only if missing): `python-settings` → `SETTINGS.md` into `project/settings.py`;
+`python-logging` → `LOGGER.md` into `project/logger.py`;
 `python-di` → `STRUCTURES.md` into `project/libs/structures.py`;
 `python-fsm` → `FSM.md` into `project/libs/fsm.py`;
 `python-tests` → `CONFTEST.md` into `tests/conftest.py`.

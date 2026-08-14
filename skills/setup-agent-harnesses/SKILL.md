@@ -28,7 +28,9 @@ Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
    metrics (`uv add llm_common prometheus_client` — PyPI `llm_common`, not
    `pycommons`); skip it when the repo does not scrape Prometheus. Core includes
    `python-settings` (pydantic-settings, `Settings().PARAM`) as its own ID, not as
-   part of `python-di`. Do not offer the stack as one catch-all ID.
+   part of `python-di`. Core includes `python-logging` (`dictConfig` / `setup_logging()`)
+   as its own ID; call-site hygiene stays in `python-tooling`. Do not offer the stack as
+   one catch-all ID.
 4. Filter out entries that clearly do not fit the repo.
 5. Ask the user only about choices that cannot be inferred:
    - which categories matter for this repo;
