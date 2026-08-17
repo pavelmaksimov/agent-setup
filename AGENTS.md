@@ -4,6 +4,11 @@ Public catalog of agent harnesses used as a showcase and as a bootstrap source
 for new repositories. English for repo docs and skills unless the user asks
 otherwise.
 
+The opinionated **Python stack** is not owned here — it lives in
+[python-harness](https://github.com/pavelmaksimov/python-harness). Keep only a
+short catalog pointer in this README; do not re-vendor Python rules or linter
+skills into `harnesses/`.
+
 ## Sources of truth
 
 - **Catalog:** `README.md` → section **Catalog**. Do not recreate `catalog.yaml`.
@@ -42,32 +47,17 @@ Rules:
   file happens to exist here.
 - Never vendor upstream/reference skills, rules, hooks, or agents into
   `harnesses/`.
-- Hybrid case (e.g. `grep-ast`, `layers-linter`, `domain-types-linter`,
-  `di-linter`, `python-monitoring`): tool from upstream; skill or rule from this
+- Hybrid case (e.g. `grep-ast`): tool from upstream; skill or rule from this
   repo under the matching typed dir. State both in the README Notes column.
 - CLIs/plugins/frameworks (`agent-browser`, `keenable-cli`, Cursor plugins,
   oh-my-*, Superpowers, AG2, …) are **reference** even if a usage skill could
   be written here.
-
-## Language stacks
-
-A language stack is its own catalog category, split into layered IDs:
-
-- **core** — tooling, structure, exceptions, settings, logging, DI, tests (language-wide)
-- **adapters** — HTTP, persistence, cache, monitoring (only if the repo uses them)
-- **enforcement** — matching linter skills in the same section; not every ID is
-  required with the stack (`di-linter` is optional)
-
-Do not collapse a stack into one catch-all rule ID or a comma-separated library
-list after the table. Templates (`SETTINGS.md`, `LOGGER.md`, `STRUCTURES.md`, `BASE_MODELS.md`, `BASE_SCHEMAS.md`, `FSM.md`, `RETRY.md`, `DATABASE.md`, `ENV.md`, `CACHE.md`, `CONFTEST.md`, `BOT.md`, `TELEGRAM.md`, `CLIENT.md`)
-live in the rule dir they belong to; mention the copy path on that band.
-Linter configs (`layers.toml`, `di.toml`) live next to their skills and copy to
-the target repo root.
+- Do not add language-stack bands (core / adapters / enforcement) or Python
+  `python-*` IDs here; those belong in `python-harness`.
 
 ## Adding or changing catalog entries
 
-1. Edit the matching category table in `README.md`. Language-stack pieces go in
-   the stack section (core / adapters / enforcement), not a catch-all row.
+1. Edit the matching category table in `README.md`.
 2. If Kind is **installable**, add files under the correct typed dir and set
    `Install from` as `source → target`.
 3. If Kind is **reference**, add Upstream + Notes only — no `harnesses/` copy.
@@ -86,20 +76,12 @@ harnesses/agents/<id>/  → .cursor/agents/<id>/
 
 ## Authoring installable rules
 
-- One catalog ID per directory: `harnesses/rules/<id>/` with one or more `.mdc` files.
-  For a language stack, that ID is one layer, not the whole stack.
+- One catalog ID per directory: `harnesses/rules/<id>/` with one or more `.mdc`
+  files.
 - Frontmatter: `description`, and either `alwaysApply: true` or `globs`.
-- English bodies. Default package root is `project/`; note in the README if the installer should substitute.
-- One concern per `.mdc`. Name the layer (tooling, HTTP, persistence); leave version pins and Ruff selects to the target `pyproject.toml`.
-- Env config (`pydantic-settings`, `Settings().PARAM`) is its own core ID (`python-settings`).
-  `python-di` owns Container and LazyService. Do not fold Settings into DI.
-- Optional enforcement (`di-linter`) stays out of default pairing lines in
-  installable rule bodies. When that ID is added to a target repo, patch those
-  companion rules so they mention it.
+- English bodies.
+- One concern per `.mdc`.
 - No machine-local absolute paths, source-project product names, or secrets.
-- When enriching an installable rule from a source template, map each spec into the matching
-  catalog ID. Product metric prefixes belong in `python-monitoring`. Leave unmatched concerns
-  (named third-party SaaS auth adapters) out until they have their own ID.
 
 ## Authoring installable skills
 
@@ -110,9 +92,6 @@ harnesses/agents/<id>/  → .cursor/agents/<id>/
   cite the official spec URL and follow it.
 - `keep-a-changelog` must ask changelog language before writing entries.
 - Prefer English skill bodies in this public repo.
-- Linter config templates (`layers.toml`, `di.toml`) and skill examples use
-  package root `project/` and `components/`, matching `python-structure`. Do not
-  keep a parallel `domains/` layout.
 
 ## Bootstrap behaviour
 
@@ -121,9 +100,8 @@ When running or editing the setup skill:
 1. Read the README catalog; present options **by category**.
 2. Ask only what cannot be inferred; get approval before copying files.
 3. Install only approved **installable** paths; for **reference**, print
-   upstream install notes. Recommend `di-linter` separately from
-   `layers-linter` and `domain-types-linter`; if approved, patch companion
-   rules in the target so they name it next to the other linters.
+   upstream install notes. For Python stack needs, point the user to
+   `python-harness` / `setup-python-harness` instead of installing from here.
 4. Never overwrite existing target files without asking.
 5. Do not commit API keys, tokens, or machine-local absolute paths.
 6. After install, remind the user to periodically update installed copies from

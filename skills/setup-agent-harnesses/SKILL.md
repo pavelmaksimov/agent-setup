@@ -7,6 +7,12 @@ description: Recommends and installs compatible agent harnesses from pavelmaksim
 
 Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
 
+For the opinionated **Python stack** (core / adapters / enforcement rules and
+linter skills), use
+[`pavelmaksimov/python-harness`](https://github.com/pavelmaksimov/python-harness)
+and follow its `setup-python-harness` skill. Do not install Python stack rows
+from this catalog.
+
 ## Workflow
 
 1. Inspect the target repository's languages, tools, existing agent files, and
@@ -14,23 +20,11 @@ Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
 2. Clone the source repository into a temporary directory and read `README.md`
    (the **Catalog** section is the source of truth).
 3. Present harnesses **grouped by category**. For each category, list
-   installable and reference entries separately. For **Python stack**, present
-   the three bands (core, adapters, enforcement). Recommend core for any Python
-   repo, adapters that match the codebase (FastAPI, SQLAlchemy, Redis; Alembic
-   when the repo already has `alembic/` or `alembic.ini`; Telegram when the repo
-   uses python-telegram-bot, `apps/bot.py`, or component `handlers.py` — skip
-   `python-telegram` when there is no Telegram bot; `python-base-client` when the
-   repo has outbound HTTP adapters under `infrastructure/adapters/` — skip it
-   when there are none), and
-   `layers-linter` plus `domain-types-linter` with the stack. Offer `di-linter`
-   as optional (Container/LazyInit, DI001/DI002). Recommend `python-monitoring`
-   when the repo scrapes Prometheus, exposes `/prometheus`, or wants `llm_common`
-   metrics (`uv add llm_common prometheus_client` — PyPI `llm_common`, not
-   `pycommons`); skip it when the repo does not scrape Prometheus. Core includes
-   `python-settings` (pydantic-settings, `Settings().PARAM`) as its own ID, not as
-   part of `python-di`. Core includes `python-logging` (`dictConfig` / `setup_logging()`)
-   as its own ID; call-site hygiene stays in `python-tooling`. Do not offer the stack as
-   one catch-all ID.
+   installable and reference entries separately. If the target is a Python
+   service that needs backend structure/rules/linters, tell the user to run
+   `setup-python-harness` from `python-harness` for that stack; still offer
+   non-Python categories from this catalog (standards, agent behavior,
+   reference tooling, etc.).
 4. Filter out entries that clearly do not fit the repo.
 5. Ask the user only about choices that cannot be inferred:
    - which categories matter for this repo;
@@ -42,12 +36,7 @@ Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
    install path or upstream link, and conflicts with already-present skills.
 7. Get explicit approval for the final set.
 8. For **installable** rows, copy `Install from` source → target (see below).
-   Kind means this repo is the artifact source of truth. If `di-linter` is
-   approved, after copying it, follow that skill's companion-rule patch so
-   installed `python-structure` / `python-di` / `python-tests` name it next to
-   the other linters. Skip the patch when `di-linter` was not approved.
-   For `layers-linter` / `di-linter`, copy the sibling toml to the target repo
-   root when missing (substitute `project` if the package name differs).
+   Kind means this repo is the artifact source of truth.
 9. For **reference** rows, print the upstream URL and notes; install from
    upstream. Do not treat a missing local mirror as something to recreate here
    (e.g. `agent-browser` needs the upstream CLI).
@@ -58,7 +47,8 @@ Use `https://github.com/pavelmaksimov/agent-setup` as the catalog and source.
     (or re-copy approved installable paths) from
     `https://github.com/pavelmaksimov/agent-setup` so the target stays aligned
     with the catalog. Prefer replacing only the previously approved IDs unless
-    the user wants a new selection.
+    the user wants a new selection. For Python stack copies, remind them to
+    update from `python-harness` instead.
 
 The setup is complete when every approved installable file is installed or
 explicitly skipped, every approved reference entry has install notes shown, and
